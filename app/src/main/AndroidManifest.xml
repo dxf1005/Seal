@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.dfjy.seal" >
+
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".util.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:label="@string/title_activity_login" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.ApplyListActivity"
+            android:label="@string/title_activity_apply_list" >
+        </activity>
+        <activity
+            android:name=".activity.ApproveListActivity"
+            android:label="@string/title_activity_approve_list" >
+        </activity>
+        <activity
+            android:name=".activity.ApproveTabActivity"
+            android:label="@string/title_activity_approve_tab" >
+        </activity>
+        <activity
+            android:name=".activity.ApprovedTabActivity"
+            android:label="@string/title_activity_approved_tab" >
+        </activity>
+        <activity
+            android:name=".activity.ApplyDetailActivity"
+            android:label="@string/title_activity_apply_detail" >
+        </activity>
+        <activity
+            android:name=".activity.ApplyNewFileActivity"
+            android:label="@string/title_activity_apply_new_file" >
+        </activity>
+        <activity
+            android:name=".activity.AuditListActivity"
+            android:label="@string/title_activity_audit_list" >
+        </activity>
+        <activity
+            android:name=".activity.SealPictureActivity"
+            android:label="@string/title_activity_seal_picture" >
+        </activity>
+    </application>
+
+</manifest>

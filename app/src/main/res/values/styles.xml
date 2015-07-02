@@ -1,0 +1,11 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Holo.Light">
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="my_edit_style" parent="@android:style/Widget.EditText">
+        <item name="android:background">@drawable/login_text_bg</item>
+    </style>
+
+</resources>

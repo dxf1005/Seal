@@ -1,0 +1,7 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true"
+        android:drawable="@mipmap/login_btn_active">
+    </item>
+    <item android:drawable="@mipmap/login_btn"/>
+
+</selector>

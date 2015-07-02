@@ -1,0 +1,6 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.dfjy.seal.activity.ApplyListActivity">
+    <item android:id="@+id/action_new_file" android:title="@string/apply_menu_new_str"
+        android:orderInCategory="100" android:showAsAction="never" />
+</menu>
