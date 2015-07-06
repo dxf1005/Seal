@@ -123,7 +123,7 @@ public class LoginActivity extends Activity {
                 }
                 conn.disconnect();
             } catch (Exception e) {
-
+                Log.i("Exception:",e.getMessage());
             }
             return false;
         }

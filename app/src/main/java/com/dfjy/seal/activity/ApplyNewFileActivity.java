@@ -1,8 +1,16 @@
 package com.dfjy.seal.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.ContentResolver;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.dfjy.seal.R;
@@ -57,7 +66,9 @@ public class ApplyNewFileActivity extends Activity {
     private String sealId;
     private String fileTypeID;
     private String fileDec;
-
+    private Button selectButton;
+    private String picPath = null;
+    private ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +82,24 @@ public class ApplyNewFileActivity extends Activity {
         fileTypeSpinner = (Spinner) findViewById(R.id.new_spinner_file_type);
         newBtn = (Button) findViewById(R.id.new_btn);
         cancelBtn = (Button) findViewById(R.id.new_cancel_btn);
+        selectButton = (Button)findViewById(R.id.new_addFile_btn);
+        imageView = (ImageView) this.findViewById(R.id.new_imageview);
+        selectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /***
+                 * 这个是调用android内置的intent，来过滤图片文件   ，同时也可以过滤其他的
+                 */
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                //回调图片类使用的
+                Intent wrapperIntent = Intent.createChooser(intent, null);
+                startActivityForResult(wrapperIntent, 1);
+
+
+            }
+        });
         machSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -109,6 +138,74 @@ public class ApplyNewFileActivity extends Activity {
 
 
     }
+
+    /**
+     * 回调执行的方法
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode==Activity.RESULT_OK)
+        {
+            /**
+             * 当选择的图片不为空的话，在获取到图片的途径
+             */
+            Uri uri = data.getData();
+            Log.e("Uri", "uri = "+ uri);
+            try {
+                String[] pojo = {MediaStore.Images.Media.DATA};
+
+                Cursor cursor = managedQuery(uri, pojo, null, null,null);
+                if(cursor!=null)
+                {
+                    ContentResolver cr = this.getContentResolver();
+                    int colunm_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    cursor.moveToFirst();
+                    picPath = cursor.getString(colunm_index);
+                    Log.e("Uri", "path = "+ picPath);
+                    /***
+                     * 这里加这样一个判断主要是为了第三方的软件选择，比如：使用第三方的文件管理器的话，你选择的文件就不一定是图片了，这样的话，我们判断文件的后缀名
+                     * 如果是图片格式的话，那么才可以
+                     */
+//                    if(path.endsWith("jpg")||path.endsWith("png"))
+//                    {
+//                        picPath = path;
+//                        Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
+//                        imageView.setImageBitmap(bitmap);
+//                    }else{
+//                        alert();
+//                    }
+                }else{
+                    alert();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        /**
+         * 回调使用
+         */
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void alert()
+    {
+        Dialog dialog = new AlertDialog.Builder(this)
+                .setTitle("提示")
+                .setMessage("您选择的不是有效的图片")
+                .setPositiveButton("确定",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                                picPath = null;
+                            }
+                        })
+                .create();
+        dialog.show();
+    }
+
+
 
     private String[] getData(List<SealInfoBean> listSealInfo) {
         String[] items = new String[listSealInfo.size()];

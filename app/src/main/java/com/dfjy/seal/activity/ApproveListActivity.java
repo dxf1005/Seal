@@ -16,14 +16,14 @@ public class ApproveListActivity extends Activity {
         final ActionBar bar = getActionBar();
         bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
-        bar.addTab(bar.newTab()
-                .setText("待审批")
-                .setTabListener(new TabListener<ApproveTabActivity.ApproveListFragment>(
-                        this, "approve", ApproveTabActivity.ApproveListFragment.class)));
-        bar.addTab(bar.newTab()
-                .setText("已审批")
-                .setTabListener(new TabListener<ApprovedTabActivity.ApprovedListFragment>(
-                        this, "approved", ApprovedTabActivity.ApprovedListFragment.class)));
+        ActionBar.Tab approveTab = bar.newTab().setText("待审批");
+        ActionBar.Tab approvedTab = bar.newTab().setText("已审批");
+        approveTab.setTabListener(new TabListener<ApproveTabActivity.ApproveListFragment>(
+                this, "approve", ApproveTabActivity.ApproveListFragment.class));
+        approvedTab.setTabListener(new TabListener<ApprovedTabActivity.ApprovedListFragment>(
+                this, "approved", ApprovedTabActivity.ApprovedListFragment.class));
+        bar.addTab(approveTab);
+        bar.addTab(approvedTab);
 
         if (savedInstanceState != null) {
             bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));

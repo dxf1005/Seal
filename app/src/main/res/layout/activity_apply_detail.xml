@@ -10,7 +10,6 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
@@ -25,6 +24,7 @@
                 android:text="@string/file_name_str"
                 android:id="@+id/detail_tv_file_name_tv"/>
             <TextView
+                android:paddingLeft="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/detail_tv_file_name"/>
@@ -40,12 +40,14 @@
                 android:text="@string/file_no_str"
                 android:id="@+id/detail_tv_file_no_tv"/>
             <TextView
+                android:paddingLeft="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/detail_tv_file_no"/>
         </TableRow>
 
         <TableRow
+
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"
             android:layout_height="50dp">
@@ -55,6 +57,7 @@
                 android:text="@string/file_seal_num_str"
                 android:id="@+id/detail_tv_file_seal_num_tv"/>
             <TextView
+                android:paddingLeft="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/detail_tv_file_seal_num"/>
@@ -70,6 +73,7 @@
                 android:text="@string/file_seal_str"
                 android:id="@+id/detail_tv_file_seal_tv"/>
             <TextView
+                android:paddingLeft="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/detail_tv_file_seal"/>
@@ -85,6 +89,7 @@
                 android:text="@string/file_type_str"
                 android:id="@+id/detail_tv_file_type_tv"/>
             <TextView
+                android:paddingLeft="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/detail_tv_file_type"/>
@@ -100,6 +105,7 @@
                 android:text="@string/file_write_time_str"
                 android:id="@+id/detail_tv_file_time_tv"/>
         <TextView
+            android:paddingLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/detail_tv_file_write_time"/>
@@ -114,6 +120,7 @@
                 android:text="@string/file_dec_str"
                 android:id="@+id/detail_tv_file_dec_tv"/>
             <TextView
+                android:paddingLeft="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/detail_tv_file_dec"/>

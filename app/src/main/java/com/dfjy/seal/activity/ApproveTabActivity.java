@@ -3,15 +3,9 @@ package com.dfjy.seal.activity;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.ListFragment;
-import android.app.LoaderManager;
 import android.content.Context;
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -20,7 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.SimpleCursorAdapter;
+import android.widget.SimpleAdapter;
 
 import com.dfjy.seal.R;
 import com.dfjy.seal.bean.FileInfoTable;
@@ -39,8 +33,7 @@ import java.util.Map;
 
 public class ApproveTabActivity extends Activity {
 
-    private static List<FileInfoTable> list;
-    private GetDataList getDataList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,78 +46,83 @@ public class ApproveTabActivity extends Activity {
             fm.beginTransaction().add(android.R.id.content, list).commit();
         }
     }
-    public class GetDataList extends AsyncTask {
 
 
-        @Override
-        protected List<FileInfoTable> doInBackground(Object[] params) {
-            return getApplyListData();
-        }
 
-        @Override
-        protected void onPostExecute(Object o) {
-
-        }
-
-
-        public List<FileInfoTable> getApplyListData() {
-            list = new ArrayList<FileInfoTable>();
-            StringBuffer urlStr = new StringBuffer();
-            urlStr.append("http://");
-            urlStr.append(SPUtils.get(ApproveTabActivity.this, "url", "").toString());
-            urlStr.append("/SealServer/ServletFileInfo?flag=0");
-            urlStr.append("&writeid="+SPUtils.get(ApproveTabActivity.this,"user", "").toString());
-            try {
-                URL url = new URL(urlStr.toString());
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(5 * 1000);
-                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    InputStream inStream = conn.getInputStream();
-                    byte[] data = StreamTool.readInputStream(inStream);
-                    String jsonStr = new String(data);
-                    Log.i("jsonStr", jsonStr);
-                    System.out.print(jsonStr);
-                    Gson gson = new Gson();
-                    list = gson.fromJson(jsonStr, new TypeToken<List<FileInfoTable>>() {
-                    }.getType());
-                }
-                conn.disconnect();
-            } catch (Exception e) {
-                //showDialog(e.getMessage());
-            }
-
-            return list;
-        }
-
-    }
-    private List<Map<String, String>> getData(List<FileInfoTable> listFileInfo) {
-        List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-        Map<String, String> map = new HashMap<String, String>();
-        for (int i = 0; i < listFileInfo.size(); i++) {
-            map = new HashMap<String, String>();
-            map.put("name", "文件名:" + listFileInfo.get(i).getFileName());
-            map.put("writeTime", listFileInfo.get(i).getWriteTime());
-            map.put("fileType", "文件类型:" + String.valueOf(listFileInfo.get(i).getFileTypeName()));
-            map.put("sealId", "印章:" + String.valueOf(listFileInfo.get(i).getSealName()));
-            list.add(map);
-        }
-        return list;
-    }
-
-    public static class ApproveListFragment extends ListFragment implements SearchView.OnQueryTextListener, SearchView.OnCloseListener,
-            LoaderManager.LoaderCallbacks<Cursor> {
+    public static class ApproveListFragment extends ListFragment implements SearchView.OnQueryTextListener, SearchView.OnCloseListener {
 
         // This is the Adapter being used to display the list's data.
-        SimpleCursorAdapter mAdapter;
+        //SimpleCursorAdapter mAdapter;
 
         // The SearchView for doing filtering.
         SearchView mSearchView;
 
         // If non-null, this is the current filter the user has provided.
         String mCurFilter;
+        private static List<FileInfoTable> list;
+        private GetDataList getDataList;
+
+        private List<Map<String, String>> getData(List<FileInfoTable> listFileInfo) {
+            List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+            Map<String, String> map = new HashMap<String, String>();
+            for (int i = 0; i < listFileInfo.size(); i++) {
+                map = new HashMap<String, String>();
+                map.put("name", "文件名:" + listFileInfo.get(i).getFileName());
+                map.put("writeTime", listFileInfo.get(i).getWriteTime());
+                map.put("fileType", "文件类型:" + String.valueOf(listFileInfo.get(i).getFileTypeName()));
+                map.put("sealId", "印章:" + String.valueOf(listFileInfo.get(i).getSealName()));
+                list.add(map);
+            }
+            return list;
+        }
 
 
+        public class GetDataList extends AsyncTask {
 
+
+            @Override
+            protected List<FileInfoTable> doInBackground(Object[] params) {
+                return getApplyListData();
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                SimpleAdapter adapter = new SimpleAdapter(getActivity(), getData(list),
+                        R.layout.apply_list, new String[]{"name", "writeTime", "fileType", "sealId"}, new int[]{
+                        R.id.name, R.id.writeTime, R.id.fileType, R.id.sealId});
+                setListAdapter(adapter);
+            }
+
+
+            public List<FileInfoTable> getApplyListData() {
+                list = new ArrayList<FileInfoTable>();
+                StringBuffer urlStr = new StringBuffer();
+                urlStr.append("http://");
+                urlStr.append(SPUtils.get(getActivity(), "url", "").toString());
+                urlStr.append("/SealServer/ServletFileInfo?flag=01");
+                try {
+                    URL url = new URL(urlStr.toString());
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setReadTimeout(5 * 1000);
+                    if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                        InputStream inStream = conn.getInputStream();
+                        byte[] data = StreamTool.readInputStream(inStream);
+                        String jsonStr = new String(data);
+                        Log.i("jsonStr", jsonStr);
+                        System.out.print(jsonStr);
+                        Gson gson = new Gson();
+                        list = gson.fromJson(jsonStr, new TypeToken<List<FileInfoTable>>() {
+                        }.getType());
+                    }
+                    conn.disconnect();
+                } catch (Exception e) {
+                    //showDialog(e.getMessage());
+                }
+
+                return list;
+            }
+
+        }
         @Override
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
@@ -139,24 +137,24 @@ public class ApproveTabActivity extends Activity {
             // Create an empty adapter we will use to display the loaded data.
 
             //list= (List<FileInfoTable>) o;
-//            SimpleAdapter adapter = new SimpleAdapter(ApproveTabActivity.this, getData(list),
-//                    R.layout.apply_list, new String[]{"name", "writeTime", "fileType", "sealId"}, new int[]{
-//                    R.id.name, R.id.writeTime, R.id.fileType, R.id.sealId});
-//            setListAdapter(adapter);
+
+            getDataList = new GetDataList();
+            getDataList.execute();
 
 
-            mAdapter = new SimpleCursorAdapter(getActivity(),
-                    android.R.layout.simple_list_item_2, null,
-                    new String[] { ContactsContract.Contacts.DISPLAY_NAME, ContactsContract.Contacts.CONTACT_STATUS },
-                    new int[] { android.R.id.text1, android.R.id.text2 }, 0);
-            setListAdapter(mAdapter);
+
+//            mAdapter = new SimpleCursorAdapter(getActivity(),
+//                    R.layout.apply_list, null,
+//                    new String[] { "name", "writeTime", "fileType", "sealId"},
+//                    new int[] { android.R.id.text1, android.R.id.text2 }, 0);
+//            setListAdapter(mAdapter);
 
             // Start out with a progress indicator.
             setListShown(false);
 
             // Prepare the loader.  Either re-connect with an existing one,
             // or start a new one.
-            getLoaderManager().initLoader(0, null, this);
+            //getLoaderManager().initLoader(0, null, this);
         }
 
         public static class MySearchView extends SearchView {
@@ -173,7 +171,8 @@ public class ApproveTabActivity extends Activity {
             }
         }
 
-        @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        @Override
+        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
             // Place an action bar item for searching.
             MenuItem item = menu.add("Search");
             item.setIcon(android.R.drawable.ic_menu_search);
@@ -200,11 +199,12 @@ public class ApproveTabActivity extends Activity {
                 return true;
             }
             mCurFilter = newFilter;
-            getLoaderManager().restartLoader(0, null, this);
+            //getLoaderManager().restartLoader(0, null, this);
             return true;
         }
 
-        @Override public boolean onQueryTextSubmit(String query) {
+        @Override
+        public boolean onQueryTextSubmit(String query) {
             // Don't care about this.
             return true;
         }
@@ -217,63 +217,13 @@ public class ApproveTabActivity extends Activity {
             return true;
         }
 
-        @Override public void onListItemClick(ListView l, View v, int position, long id) {
+        @Override
+        public void onListItemClick(ListView l, View v, int position, long id) {
             // Insert desired behavior here.
             Log.i("FragmentComplexList", "Item clicked: " + id);
         }
 
-        // These are the Contacts rows that we will retrieve.
-        static final String[] CONTACTS_SUMMARY_PROJECTION = new String[] {
-                ContactsContract.Contacts._ID,
-                ContactsContract.Contacts.DISPLAY_NAME,
-                ContactsContract.Contacts.CONTACT_STATUS,
-                ContactsContract.Contacts.CONTACT_PRESENCE,
-                ContactsContract.Contacts.PHOTO_ID,
-                ContactsContract.Contacts.LOOKUP_KEY,
-        };
 
-        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-            // This is called when a new Loader needs to be created.  This
-            // sample only has one Loader, so we don't care about the ID.
-            // First, pick the base URI to use depending on whether we are
-            // currently filtering.
-            Uri baseUri;
-            if (mCurFilter != null) {
-                baseUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_FILTER_URI,
-                        Uri.encode(mCurFilter));
-            } else {
-                baseUri = ContactsContract.Contacts.CONTENT_URI;
-            }
-
-            // Now create and return a CursorLoader that will take care of
-            // creating a Cursor for the data being displayed.
-            String select = "((" + ContactsContract.Contacts.DISPLAY_NAME + " NOTNULL) AND ("
-                    + ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1) AND ("
-                    + ContactsContract.Contacts.DISPLAY_NAME + " != '' ))";
-            return new CursorLoader(getActivity(), baseUri,
-                    CONTACTS_SUMMARY_PROJECTION, select, null,
-                    ContactsContract.Contacts.DISPLAY_NAME + " COLLATE LOCALIZED ASC");
-        }
-
-        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-            // Swap the new cursor in.  (The framework will take care of closing the
-            // old cursor once we return.)
-            mAdapter.swapCursor(data);
-
-            // The list should now be shown.
-            if (isResumed()) {
-                setListShown(true);
-            } else {
-                setListShownNoAnimation(true);
-            }
-        }
-
-        public void onLoaderReset(Loader<Cursor> loader) {
-            // This is called when the last Cursor provided to onLoadFinished()
-            // above is about to be closed.  We need to make sure we are no
-            // longer using it.
-            mAdapter.swapCursor(null);
-        }
     }
 
 
