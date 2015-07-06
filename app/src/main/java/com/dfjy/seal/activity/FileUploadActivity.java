@@ -22,20 +22,21 @@ import java.util.List;
 
 public class FileUploadActivity extends Activity implements View.OnClickListener {
 
-    String fildId;
+    String fileId;
     String filePath;
     ListView imgPathListView;
     List<String> imgList;
     Button selectBtn;
     Button uploadBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_upload);
-        fildId = getIntent().getStringExtra("fileId");
-        selectBtn = (Button)findViewById(R.id.select_btn);
-        uploadBtn =(Button)findViewById(R.id.upload_btn);
-        imgPathListView = (ListView)findViewById(R.id.upload_img_list);
+        fileId = getIntent().getStringExtra("fileId");
+        selectBtn = (Button) findViewById(R.id.select_btn);
+        uploadBtn = (Button) findViewById(R.id.upload_btn);
+        imgPathListView = (ListView) findViewById(R.id.upload_img_list);
         selectBtn.setOnClickListener(this);
         uploadBtn.setOnClickListener(this);
         imgList = new ArrayList<String>();
@@ -52,15 +53,14 @@ public class FileUploadActivity extends Activity implements View.OnClickListener
 
             Uri uri = data.getData();
             filePath = FileUtils.getPath(this, uri);
-            String fileExt =FileUtils.getExtension(filePath).toLowerCase();
+            String fileExt = FileUtils.getExtension(filePath).toLowerCase();
 
-            if(fileExt.equals("jpg")||fileExt.equals("png")){
+            if (fileExt.equals("jpg") || fileExt.equals("png")) {
 
 
             }
             imgList.add(filePath);
             imgPathListView.invalidateViews();
-
 
 
             Log.i("path:", filePath);
@@ -94,7 +94,7 @@ public class FileUploadActivity extends Activity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.select_btn:
                 Intent intent = new Intent();
                 intent.setType("*/*");
@@ -108,15 +108,16 @@ public class FileUploadActivity extends Activity implements View.OnClickListener
                 }
                 break;
             case R.id.upload_btn:
+                String[] str = new String[2];
+                str[0] = fileId;
+                for (int i = 0; i < imgList.size(); i++) {
+                    if (imgList.get(i) != null && imgList.get(i).length() > 0) {
+                        str[1]=imgList.get(i);
+                        UploadFileTask uploadFileTask = new UploadFileTask(FileUploadActivity.this);
+                        uploadFileTask.execute(str);
+                    }
 
-                 for(int i = 0;i<imgList.size();i++){
-                     if(imgList.get(i)!=null&&imgList.get(i).length()>0)
-                     {
-                         UploadFileTask uploadFileTask=new UploadFileTask(FileUploadActivity.this);
-                         uploadFileTask.execute(imgList.get(i));
-                     }
-
-                 }
+                }
                 break;
         }
     }

@@ -58,7 +58,8 @@ public class ApplyDetailActivity extends Activity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent intent = new Intent(ApplyDetailActivity.this,FileUploadActivity.class);
-            intent.putExtra("fileId",fileInfoTable.getFileId());
+            String filedID =String.valueOf(fileInfoTable.getFileId());
+            intent.putExtra("fileId",filedID);
             startActivity(intent);
             return true;
         }
