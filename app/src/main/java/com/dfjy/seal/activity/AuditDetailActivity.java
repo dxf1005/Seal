@@ -10,13 +10,13 @@ import android.widget.TextView;
 import com.dfjy.seal.R;
 import com.dfjy.seal.bean.FileInfoTable;
 
-public class ApplyDetailActivity extends Activity {
+public class AuditDetailActivity extends Activity {
     private FileInfoTable fileInfoTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_apply_detail);
+        setContentView(R.layout.activity_audit_detail);
         fileInfoTable=(FileInfoTable)getIntent().getSerializableExtra("fileInfo");
         TextView fileName=(TextView)findViewById(R.id.detail_tv_file_name);
         //TextView fileNo=(TextView)findViewById(R.id.detail_tv_file_no);
@@ -57,7 +57,7 @@ public class ApplyDetailActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(ApplyDetailActivity.this,FileUploadActivity.class);
+            Intent intent = new Intent(AuditDetailActivity.this,FileUploadActivity.class);
             intent.putExtra("fileId",fileInfoTable.getFileId());
             startActivity(intent);
             return true;

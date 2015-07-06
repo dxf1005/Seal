@@ -38,24 +38,6 @@
                     android:paddingLeft="10dp" />
             </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/file_no_str"></TextView>
-
-                <EditText
-                    android:id="@+id/new_edit_file_no"
-                    style="@style/my_edit_style"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
-                    android:paddingLeft="10dp" />
-            </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
@@ -188,12 +170,6 @@
                 android:background="@drawable/login_btn_bg"
                 android:text="新建"/>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/new_cancel_btn"
-                android:background="@drawable/login_btn_bg"
-                android:text="取消"/>
 
         </LinearLayout>
 

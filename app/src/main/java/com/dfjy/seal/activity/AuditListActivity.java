@@ -65,7 +65,7 @@ public class AuditListActivity extends ListActivity {
         Toast.makeText(getApplicationContext(),
                 "查看详细信息 ", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent();
-        intent.setClass(AuditListActivity.this, ApplyDetailActivity.class);
+        intent.setClass(AuditListActivity.this, AuditDetailActivity.class);
         Bundle data = new Bundle();
         data.putSerializable("fileInfo", list.get(position));
         intent.putExtras(data);
@@ -138,6 +138,8 @@ public class AuditListActivity extends ListActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+
             return true;
         }
 

@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".util.MyApplication"
@@ -55,6 +56,14 @@
         <activity
             android:name=".activity.SealPictureActivity"
             android:label="@string/title_activity_seal_picture" >
+        </activity>
+        <activity
+            android:name=".activity.FileUploadActivity"
+            android:label="@string/title_activity_file_upload" >
+        </activity>
+        <activity
+            android:name=".activity.AuditDetailActivity"
+            android:label="@string/title_activity_audit_detail" >
         </activity>
     </application>
 

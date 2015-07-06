@@ -1,9 +1,11 @@
 <resources>
-    <string name="app_name">seal</string>
+    <string name="app_name">印章审批系统</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="action_uploadImg">上传用印图片</string>
+    <string name="action_uploadFile">上传文件</string>
+    <string name="title_activity_login">登录</string>
     <string name="login_btn_str">登录</string>
     <string name="main_apply_btn_str">申请</string>
     <string name="main_approve_btn_str">审批</string>
@@ -19,13 +21,15 @@
     <string name="file_seal_str">印章</string>
     <string name="file_seal_num_str">盖章次数</string>
     <string name="file_dec_str">文件描述</string>
-    <string name="title_activity_apply_list">ApplyListActivity</string>
-    <string name="title_activity_approve_list">ApproveListActivity</string>
-    <string name="title_activity_approve_tab">ApproveTabActivity</string>
-    <string name="title_activity_approved_list">ApprovedListActivity</string>
-    <string name="title_activity_approved_tab">ApprovedTabActivity</string>
-    <string name="title_activity_apply_detail">ApplyDetailActivity</string>
-    <string name="title_activity_apply_new_file">ApplyNewFileActivity</string>
-    <string name="title_activity_audit_list">AuditListActivity</string>
-    <string name="title_activity_seal_picture">SealPictureActivity</string>
+    <string name="title_activity_apply_list">申请列表</string>
+    <string name="title_activity_approve_list">审批列表</string>
+    <string name="title_activity_approve_tab">待审批列表</string>
+    <string name="title_activity_approved_list">已审批列表</string>
+    <string name="title_activity_approved_tab">已审批列表</string>
+    <string name="title_activity_apply_detail">详细信息</string>
+    <string name="title_activity_apply_new_file">新建用印</string>
+    <string name="title_activity_audit_list">审核</string>
+    <string name="title_activity_audit_detail">审核详细信息</string>
+    <string name="title_activity_seal_picture">用印</string>
+    <string name="title_activity_file_upload">文件上传</string>
 </resources>
