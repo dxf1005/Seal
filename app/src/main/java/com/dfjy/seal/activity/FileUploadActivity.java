@@ -117,11 +117,15 @@ public class FileUploadActivity extends Activity implements View.OnClickListener
                 for (int i = 0; i < imgList.size(); i++) {
                     if (imgList.get(i) != null && imgList.get(i).length() > 0) {
                         str[1]=imgList.get(i);
+                        Log.i("str[1]:", str[1]);
                         UploadFileTask uploadFileTask = new UploadFileTask(FileUploadActivity.this);
                         uploadFileTask.execute(str);
                     }
 
                 }
+
+                imgList.clear();
+                imgPathListView.invalidateViews();
                 break;
         }
     }

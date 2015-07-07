@@ -1,5 +1,6 @@
 package com.dfjy.seal.util;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -44,8 +45,9 @@ public class UploadFileTask extends AsyncTask<String[], Void, String> {
         super.onCancelled();
     }
 
+    @SuppressLint("LongLogTag")
     @Override
-    protected String doInBackground(String[]... params) {
+    protected  synchronized String doInBackground(String[]... params) {
         String fileId = "0";
         String uplaodFlag = "0";
 
@@ -54,6 +56,7 @@ public class UploadFileTask extends AsyncTask<String[], Void, String> {
         uplaodFlag = params[0][2].toString();
 
         File file = new File(params[0][1].toString());
+        Log.i("params[0][1].toString():", params[0][1].toString());
         StringBuffer urlStr = new StringBuffer();
         urlStr.append("http://");
         urlStr.append(SPUtils.get(context, "url", "").toString());
