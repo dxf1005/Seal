@@ -70,6 +70,7 @@ public class SealPictureActivity extends ListActivity {
         intent.setClass(SealPictureActivity.this, ApplyDetailActivity.class);
         Bundle data = new Bundle();
         data.putSerializable("fileInfo", list.get(position));
+        intent.putExtra("upload", "img");
         intent.putExtras(data);
         startActivity(intent);
 

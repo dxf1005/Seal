@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.widget.Toast;
 
 public class ApproveListActivity extends Activity {
 
@@ -18,10 +17,11 @@ public class ApproveListActivity extends Activity {
         bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
         ActionBar.Tab approveTab = bar.newTab().setText("待审批");
         ActionBar.Tab approvedTab = bar.newTab().setText("已审批");
-        approveTab.setTabListener(new TabListener<ApproveTabActivity.ApproveListFragment>(
-                this, "approve", ApproveTabActivity.ApproveListFragment.class));
-        approvedTab.setTabListener(new TabListener<ApprovedTabActivity.ApprovedListFragment>(
-                this, "approved", ApprovedTabActivity.ApprovedListFragment.class));
+        TabListener approveFragment = new TabListener(new ApproveListFragment());
+        TabListener approvedFragment = new TabListener(new ApprovedListFragment());
+        approveTab.setTabListener(approveFragment);
+        approvedTab.setTabListener(approvedFragment);
+
         bar.addTab(approveTab);
         bar.addTab(approvedTab);
 
@@ -36,53 +36,30 @@ public class ApproveListActivity extends Activity {
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
     }
 
-    public static class TabListener<T extends Fragment> implements ActionBar.TabListener {
-        private final Activity mActivity;
-        private final String mTag;
-        private final Class<T> mClass;
-        private final Bundle mArgs;
+    public class TabListener implements ActionBar.TabListener {
+
         private Fragment mFragment;
 
-        public TabListener(Activity activity, String tag, Class<T> clz) {
-            this(activity, tag, clz, null);
-        }
-
-        public TabListener(Activity activity, String tag, Class<T> clz, Bundle args) {
-            mActivity = activity;
-            mTag = tag;
-            mClass = clz;
-            mArgs = args;
-            mFragment = mActivity.getFragmentManager().findFragmentByTag(mTag);
-            if (mFragment != null && !mFragment.isDetached()) {
-                FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
-                ft.detach(mFragment);
-                ft.commit();
-            }
+        public TabListener(Fragment fragment ) {
+             this.mFragment =fragment;
         }
 
 
+        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft)
+        {
 
-
-        @Override
-        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-            if (mFragment == null) {
-                mFragment = Fragment.instantiate(mActivity, mClass.getName(), mArgs);
-                ft.add(android.R.id.content, mFragment, mTag);
-            } else {
-                ft.attach(mFragment);
-            }
         }
 
-        @Override
-        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-            if (mFragment != null) {
-                ft.detach(mFragment);
-            }
+        // 当Tab被选中的时候添加对应的Fragment
+        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft)
+        {
+            ft.add(android.R.id.content, mFragment, null);
         }
 
-        @Override
-        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-            Toast.makeText(mActivity, "Reselected!", Toast.LENGTH_SHORT).show();
+        // 当Tab没被选中的时候删除对应的此Tab对应的Fragment
+        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft)
+        {
+            ft.remove(mFragment);
         }
     }
 }

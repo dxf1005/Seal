@@ -12,12 +12,16 @@ import com.dfjy.seal.bean.FileInfoTable;
 
 public class ApplyDetailActivity extends Activity {
     private FileInfoTable fileInfoTable;
+    String uploadFlag;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apply_detail);
-        fileInfoTable=(FileInfoTable)getIntent().getSerializableExtra("fileInfo");
+        Intent intent =getIntent();
+        fileInfoTable=(FileInfoTable)intent.getSerializableExtra("fileInfo");
+        uploadFlag = intent.getStringExtra("upload");
         TextView fileName=(TextView)findViewById(R.id.detail_tv_file_name);
         //TextView fileNo=(TextView)findViewById(R.id.detail_tv_file_no);
         TextView sealNum=(TextView)findViewById(R.id.detail_tv_file_seal_num);
@@ -60,6 +64,7 @@ public class ApplyDetailActivity extends Activity {
             Intent intent = new Intent(ApplyDetailActivity.this,FileUploadActivity.class);
             String filedID =String.valueOf(fileInfoTable.getFileId());
             intent.putExtra("fileId",filedID);
+            intent.putExtra("upload",uploadFlag);
             startActivity(intent);
             return true;
         }

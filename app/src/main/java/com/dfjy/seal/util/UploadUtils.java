@@ -31,7 +31,7 @@ public class UploadUtils {
 	 * @param RequestURL  请求的rul
 	 * @return  返回响应的内容
 	 */
-	public static String uploadFile(File file,String RequestURL,String fildId)
+	public static String uploadFile(File file,String RequestURL,String fildId,String uplaodFlag)
 	{
 		String  BOUNDARY =  UUID.randomUUID().toString();  //边界标识   随机生成
 		String PREFIX = "--" , LINE_END = "\r\n"; 
@@ -52,23 +52,13 @@ public class UploadUtils {
 			//conn.setRequestProperty("Content-Length", String.valueOf(FileUtils.getFileSize(file)));
 			if(file!=null)
 			{
-				/**
-				 * 当文件不为空，把文件包装并且上传
-				 */
 				OutputStream outputSteam=conn.getOutputStream();
-				
 				DataOutputStream dos = new DataOutputStream(outputSteam);
 				StringBuffer sb = new StringBuffer();
 				sb.append(PREFIX);
 				sb.append(BOUNDARY);
 				sb.append(LINE_END);
-				/**
-				 * 这里重点注意：
-				 * name里面的值为服务器端需要key   只有这个key 才可以得到对应的文件
-				 * filename是文件的名字，包含后缀名的   比如:abc.png  
-				 */
-				
-				sb.append("Content-Disposition: form-data;name= \"img:"+fildId+"\"; filename=\""+file.getName()+"\""+LINE_END);
+				sb.append("Content-Disposition: form-data;name= \""+uplaodFlag+":"+fildId+"\"; filename=\""+file.getName()+"\""+LINE_END);
 				sb.append("Content-Type: application/octet-stream; charset="+CHARSET+LINE_END);
 				sb.append(LINE_END);
 				dos.write(sb.toString().getBytes());

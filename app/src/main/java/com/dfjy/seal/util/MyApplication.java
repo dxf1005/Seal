@@ -10,6 +10,15 @@ import android.app.Application;
  */
 public class MyApplication extends Application {
     private  String userName;
+    private String uploadFlag;
+
+    public String getUploadFlag() {
+        return uploadFlag;
+    }
+
+    public void setUploadFlag(String uploadFlag) {
+        this.uploadFlag = uploadFlag;
+    }
 
     public String getUserName() {
         return userName;

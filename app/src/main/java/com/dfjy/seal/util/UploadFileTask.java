@@ -47,9 +47,11 @@ public class UploadFileTask extends AsyncTask<String[], Void, String> {
     @Override
     protected String doInBackground(String[]... params) {
         String fileId = "0";
+        String uplaodFlag = "0";
 
 
         fileId = params[0][0].toString();
+        uplaodFlag = params[0][2].toString();
 
         File file = new File(params[0][1].toString());
         StringBuffer urlStr = new StringBuffer();
@@ -57,7 +59,7 @@ public class UploadFileTask extends AsyncTask<String[], Void, String> {
         urlStr.append(SPUtils.get(context, "url", "").toString());
         urlStr.append("/SealServer/FileImageUploadServlet");
         Log.i("urlStr", urlStr.toString());
-        return UploadUtils.uploadFile(file, urlStr.toString(), fileId);
+        return UploadUtils.uploadFile(file, urlStr.toString(), fileId,uplaodFlag);
 
     }
 

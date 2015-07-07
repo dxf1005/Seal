@@ -77,6 +77,7 @@ public class ApplyListActivity extends ListActivity {
         Bundle data = new Bundle();
         data.putSerializable("fileInfo", list.get(position));
         intent.putExtras(data);
+        intent.putExtra("upload","file");
         startActivity(intent);
 
     }

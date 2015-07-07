@@ -5,12 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.dfjy.seal.R;
 import com.dfjy.seal.bean.FileInfoTable;
 
-public class AuditDetailActivity extends Activity {
+public class AuditDetailActivity extends Activity implements View.OnClickListener {
     private FileInfoTable fileInfoTable;
 
     @Override
@@ -64,5 +65,23 @@ public class AuditDetailActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.audit_look_image_btn:
+
+                break;
+            case R.id.audit_ok_btn:
+
+                break;
+            case R.id.audit_erro_btn:
+
+                break;
+
+
+        }
+
     }
 }

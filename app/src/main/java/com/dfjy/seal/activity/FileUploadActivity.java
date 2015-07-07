@@ -28,12 +28,15 @@ public class FileUploadActivity extends Activity implements View.OnClickListener
     List<String> imgList;
     Button selectBtn;
     Button uploadBtn;
+    String uploadFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_upload);
-        fileId = getIntent().getStringExtra("fileId");
+        Intent intent =getIntent();
+        fileId = intent.getStringExtra("fileId");
+        uploadFlag =intent.getStringExtra("upload");
         selectBtn = (Button) findViewById(R.id.select_btn);
         uploadBtn = (Button) findViewById(R.id.upload_btn);
         imgPathListView = (ListView) findViewById(R.id.upload_img_list);
@@ -108,8 +111,9 @@ public class FileUploadActivity extends Activity implements View.OnClickListener
                 }
                 break;
             case R.id.upload_btn:
-                String[] str = new String[2];
+                String[] str = new String[3];
                 str[0] = fileId;
+                str[2]=uploadFlag;
                 for (int i = 0; i < imgList.size(); i++) {
                     if (imgList.get(i) != null && imgList.get(i).length() > 0) {
                         str[1]=imgList.get(i);

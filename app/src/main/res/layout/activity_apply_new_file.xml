@@ -139,7 +139,7 @@
                     android:paddingLeft="10dp" />
             </TableRow>
 
-            <TableRow
+       <!--     <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp">
@@ -153,7 +153,7 @@
                     android:background="@drawable/login_btn_bg"
                     android:text="选择上传附件"/>
 
-            </TableRow>
+            </TableRow>-->
 
 
         </TableLayout>
