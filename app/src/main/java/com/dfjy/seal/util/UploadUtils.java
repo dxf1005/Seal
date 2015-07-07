@@ -21,7 +21,7 @@ import java.util.UUID;
  */
 public class UploadUtils {
 	private static final String TAG = "uploadFile";
-	private static final int TIME_OUT = 10*10000000;   //超时时间
+	private static final int TIME_OUT = 10*1000000;   //超时时间
 	private static final String CHARSET = "utf-8"; //设置编码
 	public static final String SUCCESS="1";
 	public static final String FAILURE="0";
