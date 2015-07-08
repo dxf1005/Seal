@@ -1,25 +1,27 @@
 package com.dfjy.seal.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.dfjy.seal.R;
 import com.dfjy.seal.bean.FileInfoTable;
-import com.dfjy.seal.util.SPUtils;
-
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class AuditDetailActivity extends Activity implements View.OnClickListener {
     private FileInfoTable fileInfoTable;
+    private ProgressDialog mProgress;
+    private String TAG="AuditDetailActivity";
+   // private Button imgLookBtn;
+    private  Button notPassBtn;
+    private  Button oKPassBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,62 +44,39 @@ public class AuditDetailActivity extends Activity implements View.OnClickListene
         dec.setText(fileInfoTable.getDescription());
         writeTime.setText(fileInfoTable.getWriteTime());
         desc.setText(fileInfoTable.getDescription());
+        //imgLookBtn =(Button)findViewById(R.id.audit_look_image_btn);
+        oKPassBtn =(Button)findViewById(R.id.audit_ok_btn);
+        notPassBtn =(Button)findViewById(R.id.audit_erro_btn);
+        //imgLookBtn.setOnClickListener(this);
+        oKPassBtn.setOnClickListener(this);
+        notPassBtn.setOnClickListener(this);
     }
 
 
-    public class downImag extends AsyncTask {
-        @Override
-        protected Object doInBackground(Object[] params) {
-           return getImgListData();
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
 
 
-        }
+    @Override
+    public void onClick(View v) {
+        Log.d(TAG, "onClick" + v.getId());
+        switch (v.getId()) {
 
-        public byte[] readStream(InputStream inStream) throws Exception {
-            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            int len = 0;
-            while ((len = inStream.read(buffer)) != -1) {
-                outStream.write(buffer, 0, len);
-            }
-            outStream.close();
-            inStream.close();
-            return outStream.toByteArray();
-        }
+            case R.id.audit_ok_btn:
 
-        public byte[] getImgListData() {
-            StringBuffer urlStr = new StringBuffer();
-            urlStr.append("http://");
-            urlStr.append(SPUtils.get(AuditDetailActivity.this, "url", "").toString());
-            urlStr.append("/SealServer/ServletFileInfo?flag=20");
-            try {
-                URL url = new URL(urlStr.toString());
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(5 * 1000);
-                conn.setRequestMethod("GET");
-                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    InputStream inStream = conn.getInputStream();
-                    return readStream(inStream);
-                }
-                conn.disconnect();
-            } catch (Exception e) {
-            }
+                break;
+            case R.id.audit_erro_btn:
 
+                break;
 
-           return null;
 
         }
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_apply_detail, menu);
+        getMenuInflater().inflate(R.menu.menu_audit_detail, menu);
         return true;
     }
 
@@ -110,8 +89,8 @@ public class AuditDetailActivity extends Activity implements View.OnClickListene
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(AuditDetailActivity.this, FileUploadActivity.class);
-            intent.putExtra("fileId", fileInfoTable.getFileId());
+            Intent intent = new Intent(AuditDetailActivity.this, DownLoadImgActivity.class);
+            intent.putExtra("fileId", String.valueOf(fileInfoTable.getFileId()));
             startActivity(intent);
             return true;
         }
@@ -119,21 +98,6 @@ public class AuditDetailActivity extends Activity implements View.OnClickListene
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.audit_look_image_btn:
-
-                break;
-            case R.id.audit_ok_btn:
-
-                break;
-            case R.id.audit_erro_btn:
-
-                break;
 
 
-        }
-
-    }
 }

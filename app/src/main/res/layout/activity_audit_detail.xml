@@ -133,7 +133,7 @@
 
         </TableLayout>
 
-        <Button
+       <!-- <Button
             android:id="@+id/audit_look_image_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
             android:layout_marginTop="40dp"
             android:background="@drawable/login_btn_bg"
             android:text="查看用印页"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff" /> -->
 
         <LinearLayout
             android:layout_width="match_parent"

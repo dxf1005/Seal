@@ -34,7 +34,21 @@ public class SealPictureActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_seal_picture);
+//        //setContentView(R.layout.activity_seal_picture);
+//        if (getDataList != null) {
+//            if (getDataList.getStatus() != AsyncTask.Status.FINISHED) {
+//                return;
+//            }
+//        }
+//        getDataList = new GetDataList();
+//        getDataList.execute();
+
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         if (getDataList != null) {
             if (getDataList.getStatus() != AsyncTask.Status.FINISHED) {
                 return;
@@ -42,8 +56,8 @@ public class SealPictureActivity extends ListActivity {
         }
         getDataList = new GetDataList();
         getDataList.execute();
-
     }
+
 
     private List<Map<String, String>> getData(List<FileInfoTable> listFileInfo) {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();

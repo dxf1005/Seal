@@ -2,13 +2,23 @@ package com.dfjy.seal.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.dfjy.seal.R;
 import com.dfjy.seal.bean.FileInfoTable;
+import com.dfjy.seal.util.SPUtils;
+import com.dfjy.seal.util.StreamTool;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class ApplyDetailActivity extends Activity {
     private FileInfoTable fileInfoTable;
@@ -39,11 +49,73 @@ public class ApplyDetailActivity extends Activity {
         writeTime.setText(fileInfoTable.getWriteTime());
         desc.setText(fileInfoTable.getDescription());
 
+        Button sealBtn = (Button)findViewById(R.id.seal_btn);
+        if(uploadFlag.equals("file")){
+            sealBtn.setVisibility(View.INVISIBLE);
+        }
+
+
+        sealBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UpdateFIleState updateFIleState = new UpdateFIleState();
+                updateFIleState.execute();
+
+
+            }
+        });
 
 
 
 
     }
+
+    public class UpdateFIleState extends AsyncTask {
+
+        //public List<FileInfoTable> list;
+
+        @Override
+        protected String doInBackground(Object[] params) {
+            sealState();
+            ApplyDetailActivity.this.finish();
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+
+        }
+
+
+        public String sealState() {
+            String jsonStr="";
+            StringBuffer urlStr = new StringBuffer();
+            urlStr.append("http://");
+            urlStr.append(SPUtils.get(ApplyDetailActivity.this, "url", "").toString());
+            urlStr.append("/SealServer/ServletFileInfo?flag=sealState20");
+            urlStr.append("&fileId="+fileInfoTable.getFileId());
+            try {
+                URL url = new URL(urlStr.toString());
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(5 * 1000);
+                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    InputStream inStream = conn.getInputStream();
+                    byte[] data = StreamTool.readInputStream(inStream);
+                    jsonStr = new String(data);
+                    Log.i("jsonStr", jsonStr);
+                    System.out.print(jsonStr);
+                    return jsonStr;
+                }
+                conn.disconnect();
+            } catch (Exception e) {
+                //showDialog(e.getMessage());
+            }
+
+            return jsonStr;
+        }
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

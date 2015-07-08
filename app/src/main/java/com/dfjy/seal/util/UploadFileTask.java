@@ -47,22 +47,28 @@ public class UploadFileTask extends AsyncTask<String[], Void, String> {
 
     @SuppressLint("LongLogTag")
     @Override
-    protected  synchronized String doInBackground(String[]... params) {
+    protected synchronized String doInBackground(String[]... params) {
         String fileId = "0";
         String uplaodFlag = "0";
+        String result = "";
 
 
         fileId = params[0][0].toString();
-        uplaodFlag = params[0][2].toString();
+        uplaodFlag = params[0][1].toString();
 
-        File file = new File(params[0][1].toString());
-        Log.i("params[0][1].toString():", params[0][1].toString());
-        StringBuffer urlStr = new StringBuffer();
-        urlStr.append("http://");
-        urlStr.append(SPUtils.get(context, "url", "").toString());
-        urlStr.append("/SealServer/FileImageUploadServlet");
-        Log.i("urlStr", urlStr.toString());
-        return UploadUtils.uploadFile(file, urlStr.toString(), fileId,uplaodFlag);
+        int sum = params[0].length-3;
+
+        for (int i = 0; i < sum; i++) {
+            File file = new File(params[0][2 + i].toString());
+            Log.i("params[0][i].toString():", params[0][2 + i].toString());
+            StringBuffer urlStr = new StringBuffer();
+            urlStr.append("http://");
+            urlStr.append(SPUtils.get(context, "url", "").toString());
+            urlStr.append("/SealServer/FileImageUploadServlet");
+            Log.i("urlStr", urlStr.toString());
+            result = UploadUtils.uploadFile(file, urlStr.toString(), fileId, uplaodFlag);
+        }
+        return result;
 
     }
 

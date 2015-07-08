@@ -65,6 +65,10 @@
             android:name=".activity.AuditDetailActivity"
             android:label="@string/title_activity_audit_detail" >
         </activity>
+        <activity
+            android:name=".activity.DownLoadImgActivity"
+            android:label="@string/title_activity_down_load_img" >
+        </activity>
     </application>
 
 </manifest>
