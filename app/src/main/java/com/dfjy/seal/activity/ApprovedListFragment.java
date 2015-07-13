@@ -74,15 +74,15 @@ public class ApprovedListFragment extends ListFragment implements SearchView.OnQ
             if (adapter != null) {
 
                 adapter.setmList(list);
-                setListAdapter(adapter);
-                // adapter.notifyDataSetChanged();
+               // setListAdapter(adapter);
+                 adapter.notifyDataSetChanged();
             } else {
 
                 adapter = new FileInfoListAdapter(getActivity());
                 adapter.setmList(list);
                 setListAdapter(adapter);
             }
-
+            setListShown(true);
 
         }
 

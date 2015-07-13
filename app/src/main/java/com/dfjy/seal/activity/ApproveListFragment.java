@@ -74,7 +74,6 @@ public class ApproveListFragment extends ListFragment implements SearchView.OnQu
             if (adapter != null) {
 
                 adapter.setmList(list);
-                setListAdapter(adapter);
                 adapter.notifyDataSetChanged();
             } else {
 
@@ -82,7 +81,7 @@ public class ApproveListFragment extends ListFragment implements SearchView.OnQu
                 adapter.setmList(list);
                 setListAdapter(adapter);
             }
-
+            setListShown(true);
 
         }
 
@@ -165,7 +164,31 @@ public class ApproveListFragment extends ListFragment implements SearchView.OnQu
     @Override
     public boolean onQueryTextSubmit(String query) {
         // Don't care about this.
-        return true;
+        if(list==null||list.size()==0){
+            return false;
+        }
+        List<FileInfoTable> listFilter = new ArrayList<>();
+
+        for(int i=0;i<list.size();i++){
+            FileInfoTable item = list.get(i);
+            if(item.getFileName()!=null&&!item.getFileName().equals("")){
+                if(item.getFileName().contains(query)){
+                    listFilter.add(item);
+                    continue;
+                }
+            }
+
+        }
+
+        BaseAdapter baseAdapter = (BaseAdapter) getListAdapter();
+        FileInfoListAdapter adapter = (FileInfoListAdapter) baseAdapter;
+        if (adapter != null) {
+
+            adapter.setmList(listFilter);
+            adapter.notifyDataSetChanged();
+        }
+
+            return true;
     }
 
     @Override

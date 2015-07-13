@@ -21,7 +21,6 @@ public class ApproveListActivity extends Activity {
         TabListener approvedFragment = new TabListener(new ApprovedListFragment());
         approveTab.setTabListener(approveFragment);
         approvedTab.setTabListener(approvedFragment);
-
         bar.addTab(approveTab);
         bar.addTab(approvedTab);
 
@@ -44,22 +43,20 @@ public class ApproveListActivity extends Activity {
              this.mFragment =fragment;
         }
 
-
-        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft)
-        {
-
-        }
-
-        // 当Tab被选中的时候添加对应的Fragment
-        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft)
-        {
+        @Override
+        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
             ft.add(android.R.id.content, mFragment, null);
         }
 
-        // 当Tab没被选中的时候删除对应的此Tab对应的Fragment
-        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft)
-        {
+        @Override
+        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
             ft.remove(mFragment);
         }
+
+        @Override
+        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+
+        }
+
     }
 }
