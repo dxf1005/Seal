@@ -20,7 +20,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class ApplyDetailActivity extends Activity {
+public class SealDetailActivity extends Activity {
     private FileInfoTable fileInfoTable;
     String uploadFlag;
 
@@ -77,7 +77,7 @@ public class ApplyDetailActivity extends Activity {
         @Override
         protected String doInBackground(Object[] params) {
             sealState();
-            ApplyDetailActivity.this.finish();
+            SealDetailActivity.this.finish();
             return "";
         }
 
@@ -91,8 +91,9 @@ public class ApplyDetailActivity extends Activity {
             String jsonStr="";
             StringBuffer urlStr = new StringBuffer();
             urlStr.append("http://");
-            urlStr.append(SPUtils.get(ApplyDetailActivity.this, "url", "").toString());
-            urlStr.append("/SealServer/ServletFileInfo?flag=sealState20");
+            urlStr.append(SPUtils.get(SealDetailActivity.this, "url", "").toString());
+            urlStr.append("/SealServer/ServletFileInfo?flag=sealState");
+            urlStr.append("&stateId=20");
             urlStr.append("&fileId="+fileInfoTable.getFileId());
             try {
                 URL url = new URL(urlStr.toString());
@@ -120,7 +121,7 @@ public class ApplyDetailActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_apply_detail, menu);
+        getMenuInflater().inflate(R.menu.menu_seal_detail, menu);
         return true;
     }
 
@@ -133,12 +134,18 @@ public class ApplyDetailActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(ApplyDetailActivity.this,FileUploadActivity.class);
+            Intent intent = new Intent(SealDetailActivity.this,FileUploadActivity.class);
             String filedID =String.valueOf(fileInfoTable.getFileId());
             intent.putExtra("fileId",filedID);
             intent.putExtra("upload",uploadFlag);
             startActivity(intent);
             return true;
+        }
+        if(id == R.id.action_seal){
+            // 利用系统自带的相机应用:拍照
+            Intent intent = new Intent(SealDetailActivity.this,SealPictureUploadActivity.class);
+            intent.putExtra("fileId",String.valueOf(fileInfoTable.getFileId()));
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

@@ -41,7 +41,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.approve_btn:
-                intent = new Intent(MainActivity.this,ApproveListActivity.class);
+                //intent = new Intent(MainActivity.this,ApproveListActivity.class);
+                intent = new Intent(MainActivity.this,ApproveListActivity01.class);
                 startActivity(intent);
                 break;
             case  R.id.audit_btn:

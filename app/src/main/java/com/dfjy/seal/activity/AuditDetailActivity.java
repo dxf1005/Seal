@@ -3,6 +3,7 @@ package com.dfjy.seal.activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -13,6 +14,12 @@ import android.widget.TextView;
 
 import com.dfjy.seal.R;
 import com.dfjy.seal.bean.FileInfoTable;
+import com.dfjy.seal.util.SPUtils;
+import com.dfjy.seal.util.StreamTool;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class AuditDetailActivity extends Activity implements View.OnClickListener {
     private FileInfoTable fileInfoTable;
@@ -21,6 +28,7 @@ public class AuditDetailActivity extends Activity implements View.OnClickListene
    // private Button imgLookBtn;
     private  Button notPassBtn;
     private  Button oKPassBtn;
+    private String stateId;
 
 
     @Override
@@ -58,13 +66,17 @@ public class AuditDetailActivity extends Activity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         Log.d(TAG, "onClick" + v.getId());
+        UpdateFIleState updateFIleState = new UpdateFIleState();
         switch (v.getId()) {
 
             case R.id.audit_ok_btn:
+                stateId ="80";
 
+                updateFIleState.execute();
                 break;
             case R.id.audit_erro_btn:
-
+                stateId ="30";
+                updateFIleState.execute();
                 break;
 
 
@@ -72,6 +84,52 @@ public class AuditDetailActivity extends Activity implements View.OnClickListene
 
     }
 
+    public class UpdateFIleState extends AsyncTask {
+
+        //public List<FileInfoTable> list;
+
+        @Override
+        protected String doInBackground(Object[] params) {
+            sealState();
+            AuditDetailActivity.this.finish();
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+
+        }
+
+
+        public String sealState() {
+            String jsonStr="";
+            StringBuffer urlStr = new StringBuffer();
+            urlStr.append("http://");
+            urlStr.append(SPUtils.get(AuditDetailActivity.this, "url", "").toString());
+            urlStr.append("/SealServer/ServletFileInfo?flag=sealState");
+            urlStr.append("&stateId="+stateId);
+            urlStr.append("&fileId="+fileInfoTable.getFileId());
+            try {
+                URL url = new URL(urlStr.toString());
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(5 * 1000);
+                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    InputStream inStream = conn.getInputStream();
+                    byte[] data = StreamTool.readInputStream(inStream);
+                    jsonStr = new String(data);
+                    Log.i("jsonStr", jsonStr);
+                    System.out.print(jsonStr);
+                    return jsonStr;
+                }
+                conn.disconnect();
+            } catch (Exception e) {
+                //showDialog(e.getMessage());
+            }
+
+            return jsonStr;
+        }
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

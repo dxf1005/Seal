@@ -27,22 +27,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AuditListActivity extends ListActivity {
+public class ApproveListActivity01 extends ListActivity {
     private List<FileInfoTable> list;
     private GetDataList getDataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_audit_list);
-//        if (getDataList != null) {
-//            if (getDataList.getStatus() != AsyncTask.Status.FINISHED) {
-//                return;
-//            }
-//        }
-//        getDataList = new GetDataList();
-//        getDataList.execute();
+        // setContentView(R.layout.activity_approve_list_activity01);
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -54,6 +48,7 @@ public class AuditListActivity extends ListActivity {
         getDataList = new GetDataList();
         getDataList.execute();
     }
+
     private List<Map<String, String>> getData(List<FileInfoTable> listFileInfo) {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         Map<String, String> map = new HashMap<String, String>();
@@ -76,17 +71,17 @@ public class AuditListActivity extends ListActivity {
         Toast.makeText(getApplicationContext(),
                 "查看详细信息 ", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent();
-        intent.setClass(AuditListActivity.this, AuditDetailActivity.class);
+        intent.setClass(ApproveListActivity01.this, ApproveDetailActivity.class);
         Bundle data = new Bundle();
         data.putSerializable("fileInfo", list.get(position));
         intent.putExtras(data);
+        intent.putExtra("upload", "file");
         startActivity(intent);
 
     }
 
     public class GetDataList extends AsyncTask {
 
-        //public List<FileInfoTable> list;
 
         @Override
         protected List<FileInfoTable> doInBackground(Object[] params) {
@@ -96,7 +91,7 @@ public class AuditListActivity extends ListActivity {
         @Override
         protected void onPostExecute(Object o) {
             //list= (List<FileInfoTable>) o;
-            SimpleAdapter adapter = new SimpleAdapter(AuditListActivity.this, getData(list),
+            SimpleAdapter adapter = new SimpleAdapter(ApproveListActivity01.this, getData(list),
                     R.layout.apply_list, new String[]{"name", "writeTime", "fileType", "sealId"}, new int[]{
                     R.id.name, R.id.writeTime, R.id.fileType, R.id.sealId});
             setListAdapter(adapter);
@@ -107,8 +102,8 @@ public class AuditListActivity extends ListActivity {
             list = new ArrayList<FileInfoTable>();
             StringBuffer urlStr = new StringBuffer();
             urlStr.append("http://");
-            urlStr.append(SPUtils.get(AuditListActivity.this, "url", "").toString());
-            urlStr.append("/SealServer/ServletFileInfo?flag=20");
+            urlStr.append(SPUtils.get(ApproveListActivity01.this, "url", "").toString());
+            urlStr.append("/SealServer/ServletFileInfo?flag=01");
             try {
                 URL url = new URL(urlStr.toString());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -125,18 +120,16 @@ public class AuditListActivity extends ListActivity {
                 }
                 conn.disconnect();
             } catch (Exception e) {
-                //showDialog(e.getMessage());
             }
 
             return list;
         }
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_audit_list, menu);
+        getMenuInflater().inflate(R.menu.menu_approve_list_activity01, menu);
         return true;
     }
 
@@ -149,8 +142,6 @@ public class AuditListActivity extends ListActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-
-
             return true;
         }
 

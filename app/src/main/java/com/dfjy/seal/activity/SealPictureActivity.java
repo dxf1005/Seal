@@ -81,7 +81,7 @@ public class SealPictureActivity extends ListActivity {
         Toast.makeText(getApplicationContext(),
                 "查看详细信息 ", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent();
-        intent.setClass(SealPictureActivity.this, ApplyDetailActivity.class);
+        intent.setClass(SealPictureActivity.this, SealDetailActivity.class);
         Bundle data = new Bundle();
         data.putSerializable("fileInfo", list.get(position));
         intent.putExtra("upload", "img");
