@@ -167,7 +167,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/new_btn"
-                android:background="@drawable/login_btn_bg"
+                android:background="@drawable/btn_bg"
                 android:text="新建"/>
 
 

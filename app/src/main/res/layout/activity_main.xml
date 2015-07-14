@@ -12,8 +12,8 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="50dp"
-        android:orientation="vertical"
-        android:background="@mipmap/setting_btn_unenable">
+        android:background="@color/white"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,29 +21,54 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="50dp"
-            android:orientation="horizontal"
-            android:showDividers="end">
+            android:orientation="horizontal">
 
-
-            <Button
-                android:id="@+id/apply_btn"
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@mipmap/main_apply_btn"
-                android:textColor="#003399"
-                android:text="@string/main_apply_btn_str" />
+                android:orientation="vertical">
 
 
-            <Button
-                android:id="@+id/approve_btn"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textColor="#003399"
-                android:background="@mipmap/mian_approve_btn"
-                android:text="@string/main_approve_btn_str" />
+                <Button
+                    android:id="@+id/apply_btn"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@mipmap/main_apply_btn1"
+                    android:textColor="#003399" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:text="用印申请"
+                    android:textColor="@color/skyblue" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/approve_btn"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_weight="1"
+                    android:background="@mipmap/mian_approve_btn1"
+                    android:textColor="#003399" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:textColor="@color/skyblue"
+                    android:text="用印审批" />
+
+            </LinearLayout>
         </LinearLayout>
 
 
@@ -55,25 +80,52 @@
             android:layout_marginTop="30dp"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/audit_btn"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:textColor="#003399"
-                android:background="@mipmap/main_audit_btn"
-                android:text="@string/main_audit_btn_str" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
 
-            <Button
-                android:id="@+id/picture_btn"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textColor="#003399"
-                android:background="@mipmap/main_picture_btn"
-                android:text="@string/main_picture_btn_str" />
+                <Button
+                    android:id="@+id/audit_btn"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@mipmap/main_audit_btn1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:text="用印审核"
+                    android:textColor="@color/skyblue" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/picture_btn"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_weight="1"
+                    android:background="@mipmap/main_picture_btn1"
+                     />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:text="用印拍照"
+                    android:textColor="@color/skyblue" />
+
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.dfjy.seal.R;
@@ -29,7 +30,8 @@ public class LoginActivity extends Activity {
     private String userName;
     private String pwd;
     private String serviceUrl;
-    private LoginTo checkLogin;
+    private LoginCherK checkLogin;
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +62,7 @@ public class LoginActivity extends Activity {
                         return;
                     }
                 }
-                checkLogin = new LoginTo();
+                checkLogin = new LoginCherK(progressBar);
                 checkLogin.execute();
 
 
@@ -69,7 +71,18 @@ public class LoginActivity extends Activity {
     }
 
 
-    public class LoginTo extends AsyncTask {
+    public class LoginCherK extends AsyncTask {
+        private ProgressBar progressBar;
+        public LoginCherK(ProgressBar progressBar) {
+            this.progressBar = progressBar;
+        }
+
+        @Override
+        protected void onProgressUpdate(Object[] values) {
+            int value = (Integer)(values[0]);
+            progressBar.setProgress(value);
+        }
+
         @Override
         protected Object doInBackground(Object[] params) {
             return loginCheck();

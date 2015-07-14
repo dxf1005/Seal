@@ -2,6 +2,7 @@ package com.dfjy.seal.activity;
 
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.dfjy.seal.R;
 import com.dfjy.seal.bean.FileInfoTable;
@@ -180,6 +182,15 @@ public class ApprovedListFragment extends ListFragment implements SearchView.OnQ
     public void onListItemClick(ListView l, View v, int position, long id) {
         // Insert desired behavior here.
         Log.i("FragmentComplexList", "Item clicked: " + id);
+        Toast.makeText(v.getContext(),
+                "查看详细信息 ", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent();
+        intent.setClass(v.getContext(), ApproveDetailActivity.class);
+        Bundle data = new Bundle();
+        data.putSerializable("fileInfo", list.get(position));
+        intent.putExtras(data);
+        intent.putExtra("upload", "file");
+        startActivity(intent);
     }
 
 

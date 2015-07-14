@@ -6,14 +6,16 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@mipmap/login_bk"
     tools:context="com.dfjy.seal.activity.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_margin="30dp"
-        android:background="#ecf0f3"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="40dp"
+        android:background="@mipmap/login_in_bk1"
         android:orientation="vertical">
 
         <LinearLayout
@@ -21,12 +23,14 @@
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="60dp">
+            android:layout_marginTop="50dp">
 
             <EditText
                 android:id="@+id/login_server_edit"
                 style="@style/my_edit_style"
                 android:paddingLeft="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="25dp"
                 android:imeOptions="actionDone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -51,6 +55,8 @@
                 style="@style/my_edit_style"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="25dp"
                 android:hint="请输入用户账号"
                 android:imeOptions="actionDone"
                 android:paddingLeft="10dp"
@@ -72,6 +78,8 @@
                 style="@style/my_edit_style"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="25dp"
                 android:password="true"
                 android:hint="请输入密码"
                 android:paddingLeft="10dp"></EditText>
@@ -85,7 +93,7 @@
             android:id="@+id/check_pwd"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="35dp"
             android:background="@drawable/checkbox_btn_bg"
             android:button="@null"></CheckBox>
             <TextView
@@ -99,14 +107,19 @@
         <Button
             android:id="@+id/login_btn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/login_btn_bg"
-            android:text="登录"
-            android:textColor="#ffffff" />
 
+             />
+        <ProgressBar
+            android:id="@+id/secondBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            />
 
     </LinearLayout>
 

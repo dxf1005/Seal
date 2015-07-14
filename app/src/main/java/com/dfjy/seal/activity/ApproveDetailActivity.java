@@ -1,6 +1,7 @@
 package com.dfjy.seal.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -142,6 +143,11 @@ public class ApproveDetailActivity extends Activity implements View.OnClickListe
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
+            Intent intent = new Intent(ApproveDetailActivity.this,AccessoryListActivity.class);
+            String filedID =String.valueOf(fileInfoTable.getFileId());
+            intent.putExtra("fileId", filedID);
+            //intent.putExtra("upload",uploadFlag);
+            startActivity(intent);
             return true;
         }
 

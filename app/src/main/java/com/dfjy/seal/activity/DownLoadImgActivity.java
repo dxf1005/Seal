@@ -112,8 +112,8 @@ public class DownLoadImgActivity extends Activity implements View.OnClickListene
             StringBuffer urlStr = new StringBuffer();
             urlStr.append("http://");
             urlStr.append(SPUtils.get(DownLoadImgActivity.this, "url", "").toString());
-            urlStr.append("/SealServer/ServletImgDown?");
-            urlStr.append("picId=" + listPicId.get(currentIndex));
+            urlStr.append("/SealServer/ServletImgDown?flag=img");
+            urlStr.append("&picId=" + listPicId.get(currentIndex));
             Log.i("picId", listPicId.get(currentIndex));
             byte[] base64 = null;
             try {

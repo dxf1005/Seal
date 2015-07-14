@@ -22,12 +22,16 @@
                 android:id="@+id/seal_img_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/btn_bg"
+                android:textColor="#ffffff"
                 android:text="拍照" />
 
             <Button
                 android:id="@+id/seal_img_upload"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/btn_bg"
+                android:textColor="#ffffff"
                 android:text="上传" />
         </LinearLayout>
 
