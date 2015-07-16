@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.dfjy.seal.R;
 import com.dfjy.seal.bean.FileInfoTable;
+import com.dfjy.seal.util.Constances;
 import com.dfjy.seal.util.SPUtils;
 import com.dfjy.seal.util.StreamTool;
 
@@ -25,7 +26,6 @@ public class AuditDetailActivity extends Activity implements View.OnClickListene
     private FileInfoTable fileInfoTable;
     private ProgressDialog mProgress;
     private String TAG="AuditDetailActivity";
-   // private Button imgLookBtn;
     private  Button notPassBtn;
     private  Button oKPassBtn;
     private String stateId;
@@ -37,7 +37,6 @@ public class AuditDetailActivity extends Activity implements View.OnClickListene
         setContentView(R.layout.activity_audit_detail);
         fileInfoTable = (FileInfoTable) getIntent().getSerializableExtra("fileInfo");
         TextView fileName = (TextView) findViewById(R.id.detail_tv_file_name);
-        //TextView fileNo=(TextView)findViewById(R.id.detail_tv_file_no);
         TextView sealNum = (TextView) findViewById(R.id.detail_tv_file_seal_num);
         TextView seal = (TextView) findViewById(R.id.detail_tv_file_seal);
         TextView fileType = (TextView) findViewById(R.id.detail_tv_file_type);
@@ -45,17 +44,14 @@ public class AuditDetailActivity extends Activity implements View.OnClickListene
         TextView writeTime = (TextView) findViewById(R.id.detail_tv_file_write_time);
         TextView desc = (TextView) findViewById(R.id.detail_tv_file_dec);
         fileName.setText(fileInfoTable.getFileName());
-        // fileNo.setText(fileInfoTable.getFileNo());
         seal.setText(fileInfoTable.getSealName());
         sealNum.setText(fileInfoTable.getPageNum() + "");
         fileType.setText(fileInfoTable.getFileTypeName());
         dec.setText(fileInfoTable.getDescription());
         writeTime.setText(fileInfoTable.getWriteTime());
         desc.setText(fileInfoTable.getDescription());
-        //imgLookBtn =(Button)findViewById(R.id.audit_look_image_btn);
         oKPassBtn =(Button)findViewById(R.id.audit_ok_btn);
         notPassBtn =(Button)findViewById(R.id.audit_erro_btn);
-        //imgLookBtn.setOnClickListener(this);
         oKPassBtn.setOnClickListener(this);
         notPassBtn.setOnClickListener(this);
     }
@@ -106,7 +102,7 @@ public class AuditDetailActivity extends Activity implements View.OnClickListene
             StringBuffer urlStr = new StringBuffer();
             urlStr.append("http://");
             urlStr.append(SPUtils.get(AuditDetailActivity.this, "url", "").toString());
-            urlStr.append("/SealServer/ServletFileInfo?flag=sealState");
+            urlStr.append("/SealServer/ServletFileInfo?flag="+ Constances.UPDATE_SEAL_STATE_FLAG);
             urlStr.append("&stateId="+stateId);
             urlStr.append("&fileId="+fileInfoTable.getFileId());
             try {

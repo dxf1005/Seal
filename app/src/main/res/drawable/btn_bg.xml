@@ -1,7 +1,10 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true"
-        android:drawable="@mipmap/btn_bk_active">
+        android:drawable="@mipmap/btn_active">
     </item>
-    <item android:drawable="@mipmap/btn_bk"/>
+    <item android:state_enabled="false"
+        android:drawable="@mipmap/btn_vis">
+    </item>
+    <item android:drawable="@mipmap/btn"/>
 
 </selector>

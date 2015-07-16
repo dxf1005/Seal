@@ -42,7 +42,6 @@ public class AccessoryListActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // setContentView(R.layout.activity_accessory_list);
         Intent intent = getIntent();
         fileId = intent.getStringExtra("fileId");
         GetAccessoryList getAccessoryList = new GetAccessoryList();

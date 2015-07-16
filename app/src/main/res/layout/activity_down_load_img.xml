@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,37 +6,36 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="com.dfjy.seal.activity.DownLoadImgActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_gravity="center"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/down_up_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_bg"
+            android:layout_marginLeft="30dp"
+            android:textColor="#ffffff"
+            android:text="上一张"/>
+        <Button
+            android:id="@+id/down_next_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_bg"
+            android:textColor="#ffffff"
+            android:text="下一张"/>
 
+    </LinearLayout>
        <ImageView
            android:id="@+id/down_img"
            android:layout_width="match_parent"
-           android:layout_height="400dp" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/down_up_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_bg"
-                android:textColor="#ffffff"
-                android:text="上一张"/>
-            <Button
-                android:id="@+id/down_next_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_bg"
-                android:textColor="#ffffff"
-                android:text="下一张"/>
+           android:layout_height="match_parent" />
 
-        </LinearLayout>
 
-    </LinearLayout>
 
-</RelativeLayout>
+
+</LinearLayout>

@@ -17,13 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="图片列表" />
-
             <Button
                 android:id="@+id/select_btn"
                 android:layout_width="match_parent"
@@ -50,8 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/login_btn_bg"
+            android:layout_gravity="bottom"
+            android:background="@drawable/btn_bg"
             android:text="开始上传"
             android:textColor="#ffffff" />
     </LinearLayout>

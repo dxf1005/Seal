@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.dfjy.seal.R;
 import com.dfjy.seal.bean.FileInfoTable;
+import com.dfjy.seal.util.Constances;
 import com.dfjy.seal.util.SPUtils;
 import com.dfjy.seal.util.StreamTool;
 
@@ -24,7 +25,6 @@ import java.net.URL;
 public class ApproveDetailActivity extends Activity implements View.OnClickListener {
     private FileInfoTable fileInfoTable;
     private String TAG="ApproveDetailActivity";
-    // private Button imgLookBtn;
     private  Button notPassBtn;
     private  Button oKPassBtn;
     private String stateId;
@@ -35,7 +35,6 @@ public class ApproveDetailActivity extends Activity implements View.OnClickListe
         setContentView(R.layout.activity_approve_detail);
         fileInfoTable = (FileInfoTable) getIntent().getSerializableExtra("fileInfo");
         TextView fileName = (TextView) findViewById(R.id.detail_tv_file_name);
-        //TextView fileNo=(TextView)findViewById(R.id.detail_tv_file_no);
         TextView sealNum = (TextView) findViewById(R.id.detail_tv_file_seal_num);
         TextView seal = (TextView) findViewById(R.id.detail_tv_file_seal);
         TextView fileType = (TextView) findViewById(R.id.detail_tv_file_type);
@@ -43,17 +42,14 @@ public class ApproveDetailActivity extends Activity implements View.OnClickListe
         TextView writeTime = (TextView) findViewById(R.id.detail_tv_file_write_time);
         TextView desc = (TextView) findViewById(R.id.detail_tv_file_dec);
         fileName.setText(fileInfoTable.getFileName());
-        // fileNo.setText(fileInfoTable.getFileNo());
         seal.setText(fileInfoTable.getSealName());
         sealNum.setText(fileInfoTable.getPageNum() + "");
         fileType.setText(fileInfoTable.getFileTypeName());
         dec.setText(fileInfoTable.getDescription());
         writeTime.setText(fileInfoTable.getWriteTime());
         desc.setText(fileInfoTable.getDescription());
-        //imgLookBtn =(Button)findViewById(R.id.audit_look_image_btn);
         oKPassBtn =(Button)findViewById(R.id.audit_ok_btn);
         notPassBtn =(Button)findViewById(R.id.audit_erro_btn);
-        //imgLookBtn.setOnClickListener(this);
         oKPassBtn.setOnClickListener(this);
         notPassBtn.setOnClickListener(this);
     }
@@ -61,17 +57,17 @@ public class ApproveDetailActivity extends Activity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         Log.d(TAG, "onClick" + v.getId());
-        UpdateFIleState updateFIleState = new UpdateFIleState();
+        UpdateFileStateAT updateFileStateAT = new UpdateFileStateAT();
         switch (v.getId()) {
 
             case R.id.audit_ok_btn:
                 stateId ="10";
 
-                updateFIleState.execute();
+                updateFileStateAT.execute();
                 break;
             case R.id.audit_erro_btn:
                 stateId ="0";
-                updateFIleState.execute();
+                updateFileStateAT.execute();
                 break;
 
 
@@ -79,13 +75,12 @@ public class ApproveDetailActivity extends Activity implements View.OnClickListe
 
     }
 
-    public class UpdateFIleState extends AsyncTask {
+    public class UpdateFileStateAT extends AsyncTask {
 
-        //public List<FileInfoTable> list;
 
         @Override
         protected String doInBackground(Object[] params) {
-            sealState();
+            updateFileState();
             ApproveDetailActivity.this.finish();
             return "";
         }
@@ -96,12 +91,12 @@ public class ApproveDetailActivity extends Activity implements View.OnClickListe
         }
 
 
-        public String sealState() {
+        public String updateFileState() {
             String jsonStr="";
             StringBuffer urlStr = new StringBuffer();
             urlStr.append("http://");
             urlStr.append(SPUtils.get(ApproveDetailActivity.this, "url", "").toString());
-            urlStr.append("/SealServer/ServletFileInfo?flag=sealState");
+            urlStr.append("/SealServer/ServletFileInfo?flag="+ Constances.UPDATE_SEAL_STATE_FLAG);
             urlStr.append("&stateId="+stateId);
             urlStr.append("&fileId="+fileInfoTable.getFileId());
             try {

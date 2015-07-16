@@ -85,6 +85,7 @@ public class DownLoadImgActivity extends Activity implements View.OnClickListene
         protected Object doInBackground(Object[] params) {
             if (params[0].equals("getPicIdList")) {
                 getPictureInfoIDList();
+
                 return getImgByteData();
 
             } else if (params[0].equals("getImg")) {
@@ -97,12 +98,16 @@ public class DownLoadImgActivity extends Activity implements View.OnClickListene
         @Override
         protected void onProgressUpdate(Object[] values) {
             super.onProgressUpdate(values);
+
         }
 
         @Override
         protected void onPostExecute(Object o) {
             byte[] data = (byte[]) o;
             Log.i("data.length", "" + data.length);
+            if(listPicId.size()==1){
+                imgNextBtn.setEnabled(false);
+            }
             Bitmap mBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);// bitmap
             imgView.setImageBitmap(mBitmap);
 

@@ -79,6 +79,7 @@ public class SealPictureUploadActivity extends Activity implements View.OnClickL
                 // 利用系统自带的相机应用:拍照
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, 1);
+
                 break;
             case R.id.seal_img_upload:
                 UploadImgTask uploadImg = new UploadImgTask();
@@ -104,11 +105,15 @@ public class SealPictureUploadActivity extends Activity implements View.OnClickL
 
         @Override
         protected void onPostExecute(Object o) {
+
             if (UploadUtils.SUCCESS.equalsIgnoreCase(o.toString())) {
+
                 Toast.makeText(SealPictureUploadActivity.this, "上传成功!", Toast.LENGTH_LONG).show();
+                img.setVisibility(View.INVISIBLE);
             } else {
                 Toast.makeText(SealPictureUploadActivity.this, "上传失败!", Toast.LENGTH_LONG).show();
             }
+            imgPicBtn.setEnabled(true);
         }
     }
     @Override
@@ -125,7 +130,7 @@ public class SealPictureUploadActivity extends Activity implements View.OnClickL
             }
             new DateFormat();
             String name = DateFormat.format("yyyyMMdd_hhmmss", Calendar.getInstance(Locale.CHINA)) + ".jpg";
-            Toast.makeText(this, name, Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, name, Toast.LENGTH_LONG).show();
             Bundle bundle = data.getExtras();
             Bitmap bitmap = (Bitmap) bundle.get("data");// 获取相机返回的数据，并转换为Bitmap图片格式
 
@@ -149,8 +154,10 @@ public class SealPictureUploadActivity extends Activity implements View.OnClickL
                 }
             }
             try
-            {
+            {img.setVisibility(View.VISIBLE);
+
                 img.setImageBitmap(bitmap);// 将图片显示在ImageView里
+                imgPicBtn.setEnabled(false);
             }catch(Exception e)
             {
                 Log.e("error", e.getMessage());
