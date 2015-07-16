@@ -68,6 +68,8 @@ public class LoginActivity extends Activity {
 
             }
         });
+
+        getActionBar().hide();
     }
 
 

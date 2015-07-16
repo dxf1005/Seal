@@ -4,8 +4,34 @@
     <style name="AppTheme" parent="android:Theme.Holo.Light">
         <!-- Customize your theme here. -->
     </style>
-    <style name="my_edit_style" parent="@android:style/Widget.EditText">
-        <item name="android:background">@drawable/login_text_bg</item>
+    <style name="my_edit_style">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/textcolor</item>
+        <item name="android:textColorHint">#C6C6C6</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="LagreTextSize">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="WhiteFont" parent="LagreTextSize">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="BlackFont" parent="LagreTextSize">
+        <item name="android:textColor">@color/textcolor</item>
+    </style>
+
+    <style name="CheckboxDefalt" >
+
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:background">@drawable/checkbox_btn_bg</item>
+        <item name="android:button">@null</item>
+
     </style>
 
 </resources>

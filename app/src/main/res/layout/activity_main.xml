@@ -12,8 +12,8 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="50dp"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@mipmap/setting_btn_unenable">
 
         <LinearLayout
             android:layout_width="match_parent"
