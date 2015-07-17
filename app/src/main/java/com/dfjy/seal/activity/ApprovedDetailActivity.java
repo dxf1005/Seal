@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.dfjy.seal.R;
@@ -15,10 +14,6 @@ import com.dfjy.seal.bean.FileInfoTable;
 public class ApprovedDetailActivity extends Activity  {
     private FileInfoTable fileInfoTable;
     private String TAG="ApproveDetailActivity";
-    // private Button imgLookBtn;
-    private  Button notPassBtn;
-    private  Button oKPassBtn;
-    private String stateId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

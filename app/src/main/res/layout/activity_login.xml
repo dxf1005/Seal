@@ -3,64 +3,95 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F0F0F0"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".LoginActivity">
 
     <TextView
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="印章审批系统"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="@string/app_name"
         android:textColor="@color/textcolor"
         android:textSize="24sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="30dp"
         android:layout_marginRight="20dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/edit_bg"
-        android:orientation="vertical">
-
-
-        <EditText
-            android:id="@+id/login_server_edit"
-            style="@style/my_edit_style"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="请输入服务器地址"
-            android:imeOptions="actionDone" />
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="5dp"
+                android:background="@mipmap/login_cloud" />
+            <EditText
+                android:id="@+id/login_server_edit"
+                style="@style/login_edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="请输入服务器地址"
+                android:imeOptions="actionDone" />
+        </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="#DBDBDB" />
 
-
-        <EditText
-            android:id="@+id/login_name_edit"
-            style="@style/my_edit_style"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="请输入用户账号"
-            android:imeOptions="actionDone"
-            />
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="5dp"
+                android:background="@mipmap/user" />
+
+            <EditText
+                android:id="@+id/login_name_edit"
+                style="@style/login_edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="请输入用户账号"
+                android:imeOptions="actionDone" />
+        </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="#DBDBDB" />
 
-        <EditText
-            android:id="@+id/login_pwd_edit"
-            style="@style/my_edit_style"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="请输入密码"
-            android:password="true"/>
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="5dp"
+                android:background="@mipmap/login_lock" />
+
+            <EditText
+                android:id="@+id/login_pwd_edit"
+                style="@style/login_edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="请输入密码"
+                android:password="true" />
+        </LinearLayout>
     </LinearLayout>
 
 
@@ -71,11 +102,11 @@
 
         <CheckBox
             android:id="@+id/check_pwd"
-            style="@style/CheckboxDefalt"
+            style="@style/checkbox_default_style"
             android:layout_marginLeft="20dp" />
 
         <TextView
-            style="@style/BlackFont"
+            style="@style/textColor_black_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -86,7 +117,7 @@
 
     <Button
         android:id="@+id/login_btn"
-        style="@style/WhiteFont"
+        style="@style/textColor_white_sytle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
