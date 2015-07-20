@@ -3,4 +3,6 @@
     tools:context="com.dfjy.seal.activity.ApproveDetailActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_uploadFile"
         android:orderInCategory="100" android:showAsAction="never" />
+    <item android:id="@+id/action_accessory" android:title="@string/action_look_file"
+        android:orderInCategory="100" android:showAsAction="never" />
 </menu>

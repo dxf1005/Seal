@@ -1,6 +1,7 @@
 package com.dfjy.seal.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -32,6 +33,7 @@ public class DownLoadImgActivity extends Activity implements View.OnClickListene
     private int imgCount;
     private int currentIndex;
     private InputStream inStream;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,12 @@ public class DownLoadImgActivity extends Activity implements View.OnClickListene
     }
 
     public class DownImg extends AsyncTask {
+        private ProgressDialog pDialog;
+
+        public DownImg() {
+            pDialog = ProgressDialog.show(DownLoadImgActivity.this, "正在加载...", "正在加载图片，请耐心等候...");
+        }
+
         @Override
         protected Object doInBackground(Object[] params) {
             if (params[0].equals("getPicIdList")) {
@@ -108,8 +116,10 @@ public class DownLoadImgActivity extends Activity implements View.OnClickListene
             if(listPicId.size()==1){
                 imgNextBtn.setEnabled(false);
             }
+            //BitmapFactory.optionos.inJustDecodeBounds = true;
             Bitmap mBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);// bitmap
             imgView.setImageBitmap(mBitmap);
+            pDialog.dismiss();
 
         }
 

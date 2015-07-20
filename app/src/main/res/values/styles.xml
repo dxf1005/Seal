@@ -22,7 +22,7 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
-    <!---MainActivity     activity_main -->
+    <!---activity_main -->
     <style name="main_row_llyt_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/main_llyt_height</item>
@@ -48,6 +48,41 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">18sp</item>
     </style>
+
+
+    <!--  activity_apply_new_file -->
+    <style name="new_tv_title_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textColor">@color/midnightblue</item>
+    </style>
+    <style name="new_tv_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/dimgray</item>
+    </style>
+    <style name="new_row_llyt_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+
+    <style name="new_spinner_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@mipmap/spinner</item>
+        <item name="android:textColor">@color/dimgray</item>
+        <item name="android:paddingLeft">10dp</item>
+    </style>
+
 
 
 

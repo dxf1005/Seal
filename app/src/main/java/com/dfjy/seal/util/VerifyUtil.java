@@ -1,9 +1,12 @@
 
 package com.dfjy.seal.util;
 
-public class PasswordVerifyUtil {
+/**
+ *
+ */
+public class VerifyUtil {
 
-    private PasswordVerifyUtil() {
+    private VerifyUtil() {
 
     }
 
@@ -96,4 +99,23 @@ public class PasswordVerifyUtil {
         return true;
     }
 
+
+    /**
+     *
+     * @param value
+     * @return
+     */
+    public  static  boolean isNullOREmpty(String value){
+        if(value==null || value.trim().length() == 0){
+            return true;
+        }
+        return  false;
+    }
+
+    public  static  boolean isNumber(String value){
+        if (value.matches(NUMBER)) {
+            return true;
+        }
+        return false;
+    }
 }

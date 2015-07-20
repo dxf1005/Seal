@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.dfjy.seal.R;
 import com.dfjy.seal.util.FileUtils;
 import com.dfjy.seal.util.UploadFileTask;
+import com.dfjy.seal.util.VerifyUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,11 +57,11 @@ public class FileUploadActivity extends Activity implements View.OnClickListener
 
             Uri uri = data.getData();
             filePath = FileUtils.getPath(this, uri);
-            String fileExt = FileUtils.getExtension(filePath).toLowerCase();
-
-            if (fileExt.equals("jpg") || fileExt.equals("png")) {
-
-
+            Log.i("filePath", filePath);
+            if(VerifyUtil.isNullOREmpty(filePath)){
+                Toast.makeText(FileUploadActivity.this,
+                        "选择文件错误，请重新选择文件", Toast.LENGTH_SHORT).show();
+                return;
             }
             imgList.add(filePath);
             imgListName.add(FileUtils.getFileName(filePath));

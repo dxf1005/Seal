@@ -1,7 +1,6 @@
 package com.dfjy.seal.activity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,7 +23,6 @@ import java.net.URL;
 
 public class AuditDetailActivity extends Activity implements View.OnClickListener {
     private FileInfoTable fileInfoTable;
-    private ProgressDialog mProgress;
     private String TAG="AuditDetailActivity";
     private  Button notPassBtn;
     private  Button oKPassBtn;
@@ -136,15 +134,19 @@ public class AuditDetailActivity extends Activity implements View.OnClickListene
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent intent = new Intent(AuditDetailActivity.this, DownLoadImgActivity.class);
             intent.putExtra("fileId", String.valueOf(fileInfoTable.getFileId()));
+            startActivity(intent);
+            return true;
+        }
+        if (id == R.id.action_accessory) {
+            Intent intent = new Intent(AuditDetailActivity.this, AccessoryListActivity.class);
+            String filedID = String.valueOf(fileInfoTable.getFileId());
+            intent.putExtra("fileId", filedID);
             startActivity(intent);
             return true;
         }

@@ -103,6 +103,7 @@ public class AccessoryListActivity extends ListActivity {
         @Override
         protected void onPostExecute(Object o) {
             if (o.equals("list")) {
+
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(AccessoryListActivity.this, android.R.layout.simple_expandable_list_item_1, accessoryList);
                 setListAdapter(adapter);
             } else if (o.equals("file")) {
@@ -150,6 +151,7 @@ public class AccessoryListActivity extends ListActivity {
                 }
                 conn.disconnect();
             } catch (Exception e) {
+                Log.e("getFileByteData",e.getMessage());
             }
 
 
