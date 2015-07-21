@@ -139,7 +139,7 @@ public class AccessoryListActivity extends ListActivity {
                         return "";
                     } else {
                         String dir = SDCard + "/sealFile/"+fileId;
-                        new File(dir).mkdir();//新建文件夹
+                        new File(dir).mkdirs();//新建文件夹
                         file.createNewFile();//新建文件
                         output = new FileOutputStream(file);
                         output.write(base64);

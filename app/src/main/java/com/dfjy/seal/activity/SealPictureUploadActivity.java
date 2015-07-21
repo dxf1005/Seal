@@ -47,6 +47,7 @@ public class SealPictureUploadActivity extends Activity implements View.OnClickL
         imgUploadBtn=(Button)findViewById(R.id.seal_img_upload);
         imgPicBtn.setOnClickListener(this);
         imgUploadBtn.setOnClickListener(this);
+        imgUploadBtn.setEnabled(false);
 
     }
 
@@ -109,6 +110,7 @@ public class SealPictureUploadActivity extends Activity implements View.OnClickL
             if (UploadUtils.SUCCESS.equalsIgnoreCase(o.toString())) {
 
                 Toast.makeText(SealPictureUploadActivity.this, "上传成功!", Toast.LENGTH_LONG).show();
+                imgUploadBtn.setEnabled(false);
                 img.setVisibility(View.INVISIBLE);
             } else {
                 Toast.makeText(SealPictureUploadActivity.this, "上传失败!", Toast.LENGTH_LONG).show();
@@ -158,6 +160,7 @@ public class SealPictureUploadActivity extends Activity implements View.OnClickL
 
                 img.setImageBitmap(bitmap);// 将图片显示在ImageView里
                 imgPicBtn.setEnabled(false);
+                imgUploadBtn.setEnabled(true);
             }catch(Exception e)
             {
                 Log.e("error", e.getMessage());
