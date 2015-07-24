@@ -1,8 +1,12 @@
 package com.dfjy.seal.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,9 +25,6 @@ import com.dfjy.seal.util.SPUtils;
 import com.dfjy.seal.util.UploadUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -33,24 +34,28 @@ public class SealPictureUploadActivity extends Activity implements View.OnClickL
     Button imgPicBtn;
     Button imgUploadBtn;
     String fileName;
+    String fileId;
+    private Uri fileUri;
 
-
-   String fileId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seal_picture_upload);
         Intent intent = getIntent();
-        fileId=intent.getStringExtra("fileId");
-        img=(ImageView)findViewById(R.id.seal_img_view);
-        imgPicBtn=(Button)findViewById(R.id.seal_img_pic);
-        imgUploadBtn=(Button)findViewById(R.id.seal_img_upload);
+        fileId = intent.getStringExtra("fileId");
+        img = (ImageView) findViewById(R.id.seal_img_view);
+        imgPicBtn = (Button) findViewById(R.id.seal_img_pic);
+        imgUploadBtn = (Button) findViewById(R.id.seal_img_upload);
         imgPicBtn.setOnClickListener(this);
         imgUploadBtn.setOnClickListener(this);
         imgUploadBtn.setEnabled(false);
 
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration config) {
+        super.onConfigurationChanged(config);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -75,12 +80,14 @@ public class SealPictureUploadActivity extends Activity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.seal_img_pic:
                 // 利用系统自带的相机应用:拍照
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                fileUri=Uri.fromFile(getOutputMediaFile());
+                intent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
                 startActivityForResult(intent, 1);
-
                 break;
             case R.id.seal_img_upload:
                 UploadImgTask uploadImg = new UploadImgTask();
@@ -91,7 +98,13 @@ public class SealPictureUploadActivity extends Activity implements View.OnClickL
 
     }
 
-    class UploadImgTask extends AsyncTask{
+    class UploadImgTask extends AsyncTask {
+
+        private ProgressDialog progressDialog;
+
+        public UploadImgTask() {
+            progressDialog= ProgressDialog.show(SealPictureUploadActivity.this,"","正在上传图片，请耐心等候...");
+        }
 
         @Override
         protected Object doInBackground(Object[] params) {
@@ -100,15 +113,14 @@ public class SealPictureUploadActivity extends Activity implements View.OnClickL
             urlStr.append("http://");
             urlStr.append(SPUtils.get(SealPictureUploadActivity.this, "url", "").toString());
             urlStr.append("/SealServer/FileImageUploadServlet");
-            return UploadUtils.uploadFile(file, urlStr.toString(), fileId,"img");
+            return UploadUtils.uploadFile(file, urlStr.toString(), fileId, "img");
 
         }
 
         @Override
         protected void onPostExecute(Object o) {
-
+            progressDialog.dismiss();
             if (UploadUtils.SUCCESS.equalsIgnoreCase(o.toString())) {
-
                 Toast.makeText(SealPictureUploadActivity.this, "上传成功!", Toast.LENGTH_LONG).show();
                 imgUploadBtn.setEnabled(false);
                 img.setVisibility(View.INVISIBLE);
@@ -118,51 +130,82 @@ public class SealPictureUploadActivity extends Activity implements View.OnClickL
             imgPicBtn.setEnabled(true);
         }
     }
+
+    /**
+     * 获得图片保存路径
+     * @return
+     */
+    private  File getOutputMediaFile() {
+        String LOG_TAG = "getOutputMediaFile";
+        File mediaStorageDir = null;
+        File mediaFile;
+        try {
+            String sdStatus = Environment.getExternalStorageState();
+            if (sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
+                mediaStorageDir = new File(
+                        Environment
+                                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                        "sealImage");
+                if (!mediaStorageDir.exists()) {
+                    if (!mediaStorageDir.mkdirs()) {
+                        Log.d(LOG_TAG,
+                                "failed to create directory, check if you have the WRITE_EXTERNAL_STORAGE permission");
+                        return null;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(LOG_TAG, "Error in Creating mediaStorageDir: "
+                    + mediaStorageDir);
+        }
+        new DateFormat();
+        String name = DateFormat.format("yyyyMMdd_hhmmss", Calendar.getInstance(Locale.CHINA)) + ".jpg";
+        fileName =mediaStorageDir.getPath() + File.separator
+                + "IMG_" + name + ".jpg";
+        mediaFile = new File(fileName);
+
+
+        return mediaFile;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            String sdStatus = Environment.getExternalStorageState();
+            img.setVisibility(View.VISIBLE);
+            if (data != null)
+            {
+                Toast.makeText(this, "Image saved to:\n" + data.getData(),
+                        Toast.LENGTH_LONG).show();
 
-            if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
-                Log.i("TestFile",
-                        "SD card is not avaiable/writeable right now.");
-                return;
-            }
-            new DateFormat();
-            String name = DateFormat.format("yyyyMMdd_hhmmss", Calendar.getInstance(Locale.CHINA)) + ".jpg";
-            //Toast.makeText(this, name, Toast.LENGTH_LONG).show();
-            Bundle bundle = data.getExtras();
-            Bitmap bitmap = (Bitmap) bundle.get("data");// 获取相机返回的数据，并转换为Bitmap图片格式
-
-            FileOutputStream b = null;
-
-            File file = new File("/sdcard/Image/");
-            file.mkdirs();// 创建文件夹
-            fileName = "/sdcard/Image/"+name;
-
-            try {
-                b = new FileOutputStream(fileName);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    b.flush();
-                    b.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (data.hasExtra("data"))
+                {
+                    Bitmap thumbnail = data.getParcelableExtra("data");
+                    img.setImageBitmap(thumbnail);
                 }
+            }else{
+                int width = img.getWidth();
+                int height = img.getHeight();
+                BitmapFactory.Options factoryOptions = new BitmapFactory.Options();
+                factoryOptions.inJustDecodeBounds = true;
+                BitmapFactory.decodeFile(fileUri.getPath(), factoryOptions);
+                int imageWidth = factoryOptions.outWidth;
+                int imageHeight = factoryOptions.outHeight;
+                int scaleFactor = Math.min(imageWidth / width, imageHeight
+                        / height);
+                factoryOptions.inJustDecodeBounds = false;
+                factoryOptions.inSampleSize = scaleFactor;
+                factoryOptions.inPurgeable = true;
+                Bitmap bitmap = BitmapFactory.decodeFile(fileUri.getPath(),
+                        factoryOptions);
+                img.setImageBitmap(bitmap);
             }
-            try
-            {img.setVisibility(View.VISIBLE);
-
-                img.setImageBitmap(bitmap);// 将图片显示在ImageView里
+            try {
                 imgPicBtn.setEnabled(false);
                 imgUploadBtn.setEnabled(true);
-            }catch(Exception e)
-            {
+            } catch (Exception e) {
                 Log.e("error", e.getMessage());
             }
 

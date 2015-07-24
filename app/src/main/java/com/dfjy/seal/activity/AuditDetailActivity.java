@@ -106,7 +106,8 @@ public class AuditDetailActivity extends Activity implements View.OnClickListene
             try {
                 URL url = new URL(urlStr.toString());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(5 * 1000);
+                conn.setReadTimeout(20 * 1000);
+                conn.setConnectTimeout(10 * 1000);
                 if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     InputStream inStream = conn.getInputStream();
                     byte[] data = StreamTool.readInputStream(inStream);

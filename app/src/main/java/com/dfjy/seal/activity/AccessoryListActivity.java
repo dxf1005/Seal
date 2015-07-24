@@ -1,7 +1,7 @@
 package com.dfjy.seal.activity;
-
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,14 +14,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 import com.dfjy.seal.R;
 import com.dfjy.seal.util.FileUtils;
 import com.dfjy.seal.util.SPUtils;
 import com.dfjy.seal.util.StreamTool;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -31,7 +29,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
-
 public class AccessoryListActivity extends ListActivity {
 
     String fileId;
@@ -83,6 +80,12 @@ public class AccessoryListActivity extends ListActivity {
 
     public class GetAccessoryList extends AsyncTask {
 
+        private ProgressDialog progressDialog;
+
+        public GetAccessoryList() {
+            progressDialog=ProgressDialog.show(AccessoryListActivity.this,"","正在加载数据......");
+        }
+
         @Override
         protected Object doInBackground(Object[] params) {
             if (params[0].equals("list")) {
@@ -102,6 +105,7 @@ public class AccessoryListActivity extends ListActivity {
 
         @Override
         protected void onPostExecute(Object o) {
+            progressDialog.dismiss();
             if (o.equals("list")) {
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(AccessoryListActivity.this, android.R.layout.simple_expandable_list_item_1, accessoryList);
@@ -125,7 +129,8 @@ public class AccessoryListActivity extends ListActivity {
             try {
                 URL url = new URL(urlStr.toString());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(5 * 1000);
+                conn.setReadTimeout(20 * 1000);
+                conn.setConnectTimeout(10 * 1000);
                 conn.setRequestMethod("GET");
                 if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     InputStream inStream = conn.getInputStream();
@@ -170,6 +175,7 @@ public class AccessoryListActivity extends ListActivity {
                 URL url = new URL(urlStr.toString());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(5 * 1000);
+                conn.setConnectTimeout(5 * 1000);
                 conn.setRequestMethod("GET");
                 if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     InputStream inStream = conn.getInputStream();

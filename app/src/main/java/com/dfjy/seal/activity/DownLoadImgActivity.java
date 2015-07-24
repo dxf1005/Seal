@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.dfjy.seal.R;
 import com.dfjy.seal.util.SPUtils;
@@ -30,7 +31,6 @@ public class DownLoadImgActivity extends Activity implements View.OnClickListene
     private Button imgNextBtn;
     private ImageView imgView;
     private List<String> listPicId;
-    private int imgCount;
     private int currentIndex;
     private InputStream inStream;
 
@@ -93,8 +93,10 @@ public class DownLoadImgActivity extends Activity implements View.OnClickListene
         protected Object doInBackground(Object[] params) {
             if (params[0].equals("getPicIdList")) {
                 getPictureInfoIDList();
+                if(listPicId!=null&&listPicId.size()>0){
 
-                return getImgByteData();
+                    return getImgByteData();
+                }
 
             } else if (params[0].equals("getImg")) {
 
@@ -111,14 +113,32 @@ public class DownLoadImgActivity extends Activity implements View.OnClickListene
 
         @Override
         protected void onPostExecute(Object o) {
-            byte[] data = (byte[]) o;
-            Log.i("data.length", "" + data.length);
-            if(listPicId.size()==1){
+            if(o!=null){
+                byte[] data = (byte[]) o;
+                Log.i("data.length", "" + data.length);
+                if(listPicId.size()==1){
+                    imgNextBtn.setEnabled(false);
+                }
+                int width = imgView.getWidth();
+                int height = imgView.getHeight();
+                BitmapFactory.Options factoryOptions = new BitmapFactory.Options();
+                factoryOptions.inJustDecodeBounds = true;
+                BitmapFactory.decodeByteArray(data, 0, data.length,factoryOptions);// bitmap
+                int imageWidth = factoryOptions.outWidth;
+                int imageHeight = factoryOptions.outHeight;
+                int scaleFactor = Math.min(imageWidth / width, imageHeight
+                        / height);
+                factoryOptions.inJustDecodeBounds = false;
+                factoryOptions.inSampleSize = scaleFactor;
+                factoryOptions.inPurgeable = true;
+                Bitmap mBitmap = BitmapFactory.decodeByteArray(data, 0, data.length,factoryOptions);// bitmap
+                imgView.setImageBitmap(mBitmap);
+
+            }else{
+                Toast.makeText(DownLoadImgActivity.this,"没有用印图片",Toast.LENGTH_SHORT);
                 imgNextBtn.setEnabled(false);
             }
-            //BitmapFactory.optionos.inJustDecodeBounds = true;
-            Bitmap mBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);// bitmap
-            imgView.setImageBitmap(mBitmap);
+
             pDialog.dismiss();
 
         }
@@ -134,7 +154,8 @@ public class DownLoadImgActivity extends Activity implements View.OnClickListene
             try {
                 URL url = new URL(urlStr.toString());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(5 * 1000);
+                conn.setReadTimeout(20 * 1000);
+                conn.setConnectTimeout(10 * 1000);
                 conn.setRequestMethod("GET");
                 if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     inStream = conn.getInputStream();
@@ -163,7 +184,8 @@ public class DownLoadImgActivity extends Activity implements View.OnClickListene
             try {
                 URL url = new URL(urlStr.toString());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(5 * 1000);
+                conn.setReadTimeout(20 * 1000);
+                conn.setConnectTimeout(10 * 1000);
                 conn.setRequestMethod("GET");
                 if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     InputStream inStream = conn.getInputStream();
